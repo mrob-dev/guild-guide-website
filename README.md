@@ -13,7 +13,7 @@ Set `PORT` to override (`PORT=8080 npm start`).
 
 ## Files
 
-- `server.js` — minimal `node:http` static server (no deps)
+- `index.js` — Express server (zero config, serves `public/`)
 - `index.html` — markup
 - `styles.css` — brand tokens mirrored from the Flutter app's `lib/core/theme/guild_colors.dart`
 
