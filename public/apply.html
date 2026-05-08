@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Apply to Guild — For Guides Who Know the Way</title>
+    <meta name="description" content="Apply to join Guild. We'll review your application and get back to you by email." />
+    <meta name="theme-color" content="#10161C" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2310161C'/%3E%3Cpath d='M16 8.5l6.5 3.4v6.2c0 3.5-2.7 6.4-6.5 7.4-3.8-1-6.5-3.9-6.5-7.4v-6.2L16 8.5z' fill='none' stroke='%232E8C82' stroke-width='2'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="apply-page">
+    <div class="halo" aria-hidden="true"></div>
+
+    <header class="apply-header">
+      <a class="apply-back" href="/">
+        <span aria-hidden="true">←</span>
+        <span>Guild</span>
+      </a>
+    </header>
+
+    <main class="apply-stage">
+      <section class="apply-card">
+        <p class="kicker">Guild · Application</p>
+        <h1 class="apply-title">Apply to join</h1>
+        <p class="apply-lede">
+          Tell us a little about you and the work you do.
+          A city admin will review your application and respond by email.
+          The fields with <span class="req">*</span> are required.
+        </p>
+
+        <form id="apply-form" class="apply-form" novalidate autocomplete="on">
+          <fieldset class="fieldset">
+            <legend class="legend">You</legend>
+
+            <div class="row two">
+              <label class="field">
+                <span class="label">First name</span>
+                <input type="text" name="firstName" autocomplete="given-name" maxlength="80" />
+              </label>
+              <label class="field">
+                <span class="label">Last name</span>
+                <input type="text" name="lastName" autocomplete="family-name" maxlength="80" />
+              </label>
+            </div>
+
+            <label class="field">
+              <span class="label">Email <span class="req">*</span></span>
+              <input type="email" name="email" required autocomplete="email" maxlength="160" inputmode="email" />
+              <span class="error" data-error-for="email"></span>
+            </label>
+
+            <div class="row two">
+              <label class="field">
+                <span class="label">Base city <span class="req">*</span></span>
+                <input
+                  type="text"
+                  name="city"
+                  list="city-suggestions"
+                  required
+                  autocomplete="address-level2"
+                  maxlength="80"
+                  placeholder="e.g. Berlin"
+                />
+                <datalist id="city-suggestions">
+                  <option value="Berlin"></option>
+                </datalist>
+              </label>
+              <label class="field">
+                <span class="label">Years guiding</span>
+                <input type="number" name="yearsGuiding" min="0" max="80" inputmode="numeric" />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset">
+            <legend class="legend">Your work</legend>
+
+            <label class="field">
+              <span class="label">Website or social</span>
+              <input
+                type="url"
+                name="website"
+                placeholder="https://"
+                maxlength="240"
+                autocomplete="url"
+              />
+              <span class="hint">Optional — anywhere we can see your work.</span>
+            </label>
+
+            <label class="field">
+              <span class="label">Companies you've worked with</span>
+              <textarea name="previousCompanies" rows="2" maxlength="500"></textarea>
+            </label>
+
+            <label class="field">
+              <span class="label">Tours you offer</span>
+              <textarea name="toursOffered" rows="3" maxlength="800" placeholder="A few words on what you guide — themes, neighborhoods, formats."></textarea>
+            </label>
+          </fieldset>
+
+          <fieldset class="fieldset">
+            <legend class="legend">About</legend>
+
+            <label class="field">
+              <span class="label">Specialties</span>
+              <textarea name="specialties" rows="2" maxlength="400" placeholder="Languages, niches, accessibility, etc."></textarea>
+            </label>
+
+            <label class="field">
+              <span class="label">Anything else</span>
+              <textarea name="additionalInfo" rows="3" maxlength="800"></textarea>
+            </label>
+          </fieldset>
+
+          <!-- Honeypot: bots fill this; humans never see it. -->
+          <div class="hp" aria-hidden="true">
+            <label>
+              Leave this field empty.
+              <input type="text" name="hp_company" tabindex="-1" autocomplete="off" />
+            </label>
+          </div>
+
+          <!-- Cloudflare Turnstile mount point. Only rendered when
+               GUILD_TURNSTILE_SITE_KEY is set in the inline config below. -->
+          <div id="turnstile-mount" class="turnstile-mount"></div>
+
+          <p class="form-error" id="form-error" role="alert" aria-live="polite"></p>
+
+          <div class="actions">
+            <button type="submit" class="submit" id="submit-btn">
+              <span class="submit-label">Send application</span>
+              <span class="submit-spinner" aria-hidden="true"></span>
+            </button>
+            <p class="legalese">
+              By submitting, you agree to be contacted at the email above
+              about your application. We don't share applicant details.
+            </p>
+          </div>
+        </form>
+
+        <div class="success" id="success" hidden>
+          <p class="kicker">Guild · Received</p>
+          <h2 class="success-title">Thank you — we've got it.</h2>
+          <p class="success-body">
+            A city admin will review your application and reply by email.
+            This usually takes a few days. Look out for a message from
+            <strong>noreply@guild.guide</strong> — and check your spam
+            folder if it doesn't arrive.
+          </p>
+          <p class="actions">
+            <a class="cta" href="/">
+              <span class="cta-arrow" aria-hidden="true">←</span>
+              Back to Guild
+            </a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="apply-footer">
+      <p>
+        <a class="footnote-link" href="/imprint">Imprint</a>
+        <span class="footnote-sep" aria-hidden="true">·</span>
+        <a class="footnote-link" href="/privacy">Privacy</a>
+      </p>
+    </footer>
+
+    <!-- Optional spam protection. To enable Cloudflare Turnstile:
+         1. Get a site key from https://dash.cloudflare.com/?to=/:account/turnstile
+         2. Replace the empty string below with your site key
+         3. Set TURNSTILE_SECRET_KEY in Supabase function secrets
+         Until both are set, the form falls back to honeypot-only protection. -->
+    <script>
+      window.GUILD_TURNSTILE_SITE_KEY = '';
+    </script>
+    <script src="/apply.js" defer></script>
+  </body>
+</html>

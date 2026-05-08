@@ -135,3 +135,469 @@ body {
     }
   }
 }
+
+/* ── Landing-page CTA row ─────────────────────────────────────────── */
+
+.cta-row {
+  margin: 28px 0 0;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--fog);
+  background: rgba(46, 140, 130, 0.14);
+  border: 1px solid rgba(46, 140, 130, 0.45);
+  border-radius: 999px;
+  text-decoration: none;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: rgba(46, 140, 130, 0.24);
+  border-color: var(--teal);
+  outline: none;
+}
+
+.cta:active {
+  transform: translateY(1px);
+}
+
+.cta-arrow {
+  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cta:hover .cta-arrow,
+.cta:focus-visible .cta-arrow {
+  transform: translateX(3px);
+}
+
+/* ── Apply page ───────────────────────────────────────────────────── */
+
+.apply-page {
+  /* Allow the page to scroll naturally — this isn't a single-screen hero. */
+  min-height: 100dvh;
+}
+
+.apply-header {
+  position: relative;
+  z-index: 2;
+  padding: 24px 32px;
+}
+
+.apply-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--fog-dim);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.apply-back:hover,
+.apply-back:focus-visible {
+  color: var(--fog);
+  border-color: rgba(46, 140, 130, 0.45);
+  outline: none;
+}
+
+.apply-stage {
+  position: relative;
+  z-index: 1;
+  padding: 16px 24px 80px;
+  display: grid;
+  place-items: start center;
+}
+
+.apply-card {
+  width: min(640px, 100%);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 48px 40px;
+  text-align: left;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.03) inset,
+    0 30px 80px -20px rgba(0, 0, 0, 0.6);
+}
+
+.apply-title {
+  margin: 16px 0 12px;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  background: linear-gradient(180deg, var(--fog) 0%, var(--teal-hi) 140%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.apply-lede {
+  margin: 0 0 32px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--fog-dim);
+}
+
+.req {
+  color: var(--teal-hi);
+  font-weight: 700;
+}
+
+/* ── Form ─────────────────────────────────────────────────────────── */
+
+.apply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* `display: flex` above outranks the user-agent rule for [hidden],
+   so we restate it explicitly to keep `form.hidden = true` working. */
+.apply-form[hidden],
+.success[hidden] {
+  display: none;
+}
+
+.fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.legend {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--slate-hi);
+  margin-bottom: 6px;
+  padding: 0;
+}
+
+.row {
+  display: grid;
+  gap: 16px;
+}
+
+.row.two {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 520px) {
+  .row.two {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fog-dim);
+  letter-spacing: 0.01em;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  color: var(--fog);
+  background: var(--bg-raise);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 64px;
+  line-height: 1.5;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--fog-mute);
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: rgba(63, 168, 157, 0.65);
+  background: var(--card-hi);
+  box-shadow: 0 0 0 3px rgba(46, 140, 130, 0.18);
+}
+
+.field input.is-invalid,
+.field textarea.is-invalid {
+  border-color: rgba(232, 116, 116, 0.6);
+  box-shadow: 0 0 0 3px rgba(232, 116, 116, 0.14);
+}
+
+.field .hint {
+  font-size: 12px;
+  color: var(--fog-mute);
+  letter-spacing: 0.01em;
+}
+
+.error {
+  font-size: 12px;
+  color: rgb(232, 130, 130);
+  min-height: 14px;
+}
+
+.form-error {
+  margin: 0;
+  min-height: 18px;
+  font-size: 13px;
+  color: rgb(232, 130, 130);
+}
+
+/* Honeypot — visually hide but stay focusable for screen readers. */
+.hp {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ── Submit ───────────────────────────────────────────────────────── */
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.submit {
+  position: relative;
+  font: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  color: #08161a;
+  background: linear-gradient(180deg, var(--teal-hi) 0%, var(--teal) 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 14px 22px;
+  cursor: pointer;
+  transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.18) inset,
+    0 8px 22px -10px rgba(46, 140, 130, 0.7);
+}
+
+.submit:hover:not(:disabled),
+.submit:focus-visible:not(:disabled) {
+  filter: brightness(1.06);
+  outline: none;
+}
+
+.submit:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.submit-spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  margin-left: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.18);
+  border-top-color: #08161a;
+  border-radius: 50%;
+  vertical-align: -2px;
+  animation: spin 700ms linear infinite;
+}
+
+.submit.is-loading .submit-label {
+  opacity: 0.85;
+}
+
+.submit.is-loading .submit-spinner {
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.legalese {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--fog-mute);
+  text-align: center;
+}
+
+/* ── Success state ────────────────────────────────────────────────── */
+
+.success {
+  text-align: center;
+  padding: 8px 0;
+}
+
+.success-title {
+  margin: 12px 0 14px;
+  font-size: clamp(24px, 3.4vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  background: linear-gradient(180deg, var(--fog) 0%, var(--teal-hi) 140%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.success-body {
+  margin: 0 auto 28px;
+  max-width: 46ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--fog-dim);
+}
+
+@media (max-width: 520px) {
+  .apply-card {
+    padding: 32px 22px;
+    border-radius: 14px;
+  }
+  .apply-header {
+    padding: 18px 20px;
+  }
+}
+
+/* ── Footer / legal links ─────────────────────────────────────────── */
+
+.footnote-link {
+  color: var(--fog-mute);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.footnote-link:hover,
+.footnote-link:focus-visible {
+  color: var(--fog-dim);
+  border-bottom-color: var(--fog-mute);
+  outline: none;
+}
+
+.footnote-sep {
+  margin: 0 6px;
+  color: var(--fog-mute);
+  opacity: 0.6;
+}
+
+.apply-footer {
+  position: relative;
+  z-index: 1;
+  padding: 24px 24px 32px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--fog-mute);
+}
+
+.apply-footer p {
+  margin: 0;
+}
+
+/* ── Legal content (privacy + imprint) ────────────────────────────── */
+
+.apply-card.legal {
+  text-align: left;
+}
+
+.apply-card.legal h2 {
+  margin: 28px 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--fog);
+  text-transform: none;
+}
+
+.apply-card.legal h3 {
+  margin: 20px 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fog-dim);
+}
+
+.apply-card.legal p,
+.apply-card.legal ul {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--fog-dim);
+  margin: 0 0 12px;
+}
+
+.apply-card.legal ul {
+  padding-left: 22px;
+}
+
+.apply-card.legal li {
+  margin: 4px 0;
+}
+
+.apply-card.legal a {
+  color: var(--teal-hi);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(63, 168, 157, 0.4);
+  transition: border-color 160ms ease;
+}
+
+.apply-card.legal a:hover,
+.apply-card.legal a:focus-visible {
+  border-bottom-color: var(--teal-hi);
+  outline: none;
+}
+
+.legal-meta {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--divider);
+  font-size: 12px;
+  color: var(--fog-mute);
+  letter-spacing: 0.04em;
+}
