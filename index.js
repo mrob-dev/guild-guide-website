@@ -22,6 +22,12 @@ app.get('/privacy', (req, res) => {
 app.get('/upgrade', (req, res) => {
   res.sendFile(path.join(PUBLIC_DIR, 'upgrade.html'));
 });
+// /app — landing page targeted by approval-email GUILD_LOGIN_URL.
+// "You're approved, here's how to install the app" copy + store
+// badges (placeholders until App Store / Play Store listings are live).
+app.get('/app', (req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, 'app.html'));
+});
 
 app.use((req, res) => {
   res.status(404).type('text/plain').send('Not Found');
