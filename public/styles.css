@@ -177,7 +177,10 @@ svg {
 .hero {
   position: relative;
   isolation: isolate;
-  min-height: min(88vh, 720px);
+  /* +200 px on the cap so the hero breathes — the photograph + stack of
+     content (kicker, headline, lede, store badges, meta, CTAs) was
+     pressed tight against the marquee at the previous 720 px cap. */
+  min-height: min(92vh, 920px);
   display: grid;
   align-items: center;
   overflow: hidden;
@@ -1127,7 +1130,10 @@ body::after {
   height: 130%;
   object-fit: cover;
   object-position: center 60%;
-  opacity: 0.55;
+  /* Image's own brightness moderated by opacity. Combined with the
+     dedicated .hero__darken 25% layer, the net visible image is
+     ~0.45 × (1 − 0.25) ≈ 0.34 of the original photo. */
+  opacity: 0.45;
   filter: saturate(0.85) contrast(1.05);
   will-change: transform;
   /* The ±15% inset gives the parallax JS room to drift without ever
@@ -1287,8 +1293,12 @@ body::after {
   margin: var(--spacing-28, 28px) 0;
 }
 
-/* Gold corner accent on the .section--gold variant — small bracket
-   shape top-left of the wrap. Subtle: ~28px lines, gold at 60% alpha. */
+/* Gold bracket accents on the .section--gold variant.
+   The top-left bracket is now an explicit <span class="stanzas__corner">
+   inside the .stanzas container so it sits directly above the "01"
+   stanza number with breathing room. The bottom-right pseudo stays as
+   a visual closure mark for the section. Subtle: 24px L-shapes, gold
+   at 55% alpha. */
 .section--gold {
   position: relative;
 }
@@ -1297,7 +1307,6 @@ body::after {
   position: relative;
 }
 
-.section--gold .wrap::before,
 .section--gold .wrap::after {
   content: '';
   position: absolute;
@@ -1305,22 +1314,23 @@ body::after {
   height: 24px;
   border-color: rgba(217, 182, 111, 0.55);
   border-style: solid;
-  border-width: 0;
+  border-width: 0 1px 1px 0;
+  bottom: 0;
+  right: clamp(8px, 4vw, 24px);
   pointer-events: none;
 }
 
-.section--gold .wrap::before {
-  top: 0;
-  left: clamp(8px, 4vw, 24px);
-  border-top-width: 1px;
-  border-left-width: 1px;
-}
-
-.section--gold .wrap::after {
-  bottom: 0;
-  right: clamp(8px, 4vw, 24px);
-  border-bottom-width: 1px;
-  border-right-width: 1px;
+.stanzas__corner {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-color: rgba(217, 182, 111, 0.55);
+  border-style: solid;
+  border-width: 1px 0 0 1px;
+  /* Padding above is the user-requested breathing room between the
+     section lede and this marker. Margin-bottom anchors it visually
+     to the 01 stanza that follows. */
+  margin: 28px 0 18px 0;
 }
 
 /* monopo-style downward arrow at the foot of a section. */
