@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin — Guild</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/png" href="/guild-logo.png" />
+    <link rel="apple-touch-icon" href="/guild-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/admin/admin.css" />
+  </head>
+  <body class="page admin-body">
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="/" aria-label="Guild — home">
+          <img class="brand__mark" src="/guild-logo.png" alt="Guild" width="24" height="24" decoding="async" />
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a class="nav__link" href="/">Home</a>
+          <button id="sign-out-btn" class="nav__link admin-signout" type="button" hidden>Sign out</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page__main">
+      <div class="wrap admin-wrap">
+        <!-- Loading state during auth resolution -->
+        <section id="loading-view" class="admin-loading" aria-live="polite">
+          <p>Loading…</p>
+        </section>
+
+        <!-- Signed-out: sign-in form -->
+        <section id="signin-view" class="admin-card" aria-labelledby="signin-heading" hidden>
+          <p class="page__kicker">Guild · Admin</p>
+          <h1 id="signin-heading" class="page__title">City admin sign-in.</h1>
+          <p class="page__lede">
+            Restricted to city admins and moderators. Same email and password
+            as your in-app Guild account.
+          </p>
+
+          <form id="signin-form" class="admin-form" novalidate autocomplete="on">
+            <label class="field">
+              <span class="label">Email <span class="req">*</span></span>
+              <input
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                maxlength="160"
+                inputmode="email"
+              />
+            </label>
+
+            <label class="field">
+              <span class="label">Password <span class="req">*</span></span>
+              <input
+                type="password"
+                name="password"
+                required
+                autocomplete="current-password"
+                minlength="8"
+              />
+            </label>
+
+            <p class="form-error" id="signin-error" role="alert" aria-live="polite"></p>
+
+            <div class="actions">
+              <button type="submit" class="submit" id="signin-btn">
+                <span class="submit-label">Sign in</span>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Signed-in dashboard -->
+        <section id="dashboard-view" class="admin-dashboard" hidden>
+          <header class="admin-dashboard__head">
+            <p class="page__kicker">Guild · Admin</p>
+            <h1 class="page__title">Applications.</h1>
+            <p class="page__lede" id="admin-greeting">Loading queue…</p>
+          </header>
+
+          <div class="admin-toolbar" role="tablist" aria-label="Application status">
+            <button class="admin-tab is-active" data-status="pending" role="tab" aria-selected="true">Pending</button>
+            <button class="admin-tab" data-status="approved" role="tab" aria-selected="false">Approved</button>
+            <button class="admin-tab" data-status="rejected" role="tab" aria-selected="false">Rejected</button>
+          </div>
+
+          <p id="queue-status" class="admin-queue-status" aria-live="polite"></p>
+
+          <ul id="application-list" class="admin-list" aria-busy="false">
+            <!-- Populated by admin.js -->
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <!-- Reject dialog (lazy-rendered) -->
+    <dialog id="reject-dialog" class="admin-dialog">
+      <form method="dialog" class="admin-dialog__form" id="reject-form">
+        <h2 class="admin-dialog__title">Reject application</h2>
+        <p class="admin-dialog__lede">
+          Optional reason — included in the rejection email if filled.
+          Leave blank to send the standard "we couldn't accept this application" copy.
+        </p>
+        <label class="field">
+          <span class="label">Reason (optional)</span>
+          <textarea name="reason" rows="3" maxlength="500"></textarea>
+        </label>
+        <div class="admin-dialog__actions">
+          <button type="button" value="cancel" class="btn btn--ghost" id="reject-cancel">Cancel</button>
+          <button type="submit" value="confirm" class="submit">Send rejection</button>
+        </div>
+      </form>
+    </dialog>
+
+    <p class="footer-mark" aria-hidden="true">GUILD</p>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p>© <span data-year></span> Guild</p>
+        <nav class="site-footer__links" aria-label="Legal">
+          <a href="/imprint">Imprint</a>
+          <a href="/privacy">Privacy</a>
+        </nav>
+      </div>
+    </footer>
+
+    <!--
+      Supabase config. The anon key is safe to expose — RLS enforces
+      access control and admin-only Edge Functions verify the user's
+      session role. Replace the empty string below with your project's
+      anon key from Supabase Dashboard → Settings → API.
+    -->
+    <script>
+      window.GUILD_SUPABASE_URL = 'https://nigonhrurkscfjzgbmrr.supabase.co';
+      window.GUILD_SUPABASE_ANON_KEY = ''; // ← paste anon key here
+    </script>
+    <script src="https://esm.sh/@supabase/supabase-js@2.39.0?bundle" defer></script>
+    <script src="/admin/admin.js" defer></script>
+  </body>
+</html>

@@ -28,6 +28,13 @@ app.get('/upgrade', (req, res) => {
 app.get('/app', (req, res) => {
   res.sendFile(path.join(PUBLIC_DIR, 'app.html'));
 });
+// /admin — city admin dashboard. Auth gated client-side via Supabase,
+// then admins approve/reject pending guide_applications. /admin/* is
+// handled by express.static for css/js; this route resolves the bare
+// /admin URL to the dashboard's index.html.
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, 'admin', 'index.html'));
+});
 
 app.use((req, res) => {
   res.status(404).type('text/plain').send('Not Found');
