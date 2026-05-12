@@ -118,6 +118,35 @@
   flex-wrap: wrap;
 }
 
+.app-card__head-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.app-card__type {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.app-card__type--operator {
+  background: rgba(217, 182, 111, 0.16);
+  color: #e0c485;
+  border: 1px solid rgba(217, 182, 111, 0.4);
+}
+
+.app-card__type--guide {
+  background: rgba(63, 168, 157, 0.16);
+  color: #6fc7bc;
+  border: 1px solid rgba(63, 168, 157, 0.4);
+}
+
 .app-card__name {
   margin: 0;
   font-size: 17px;

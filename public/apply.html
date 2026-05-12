@@ -18,7 +18,7 @@
     <header class="site-header">
       <div class="wrap site-header__inner">
         <a class="brand" href="/" aria-label="Guild — home">
-          <img class="brand__mark" src="/guild-logo.png" alt="Guild" width="24" height="24" decoding="async" />
+          <img class="brand__mark" src="/guild-logo.png" alt="Guild" width="48" height="48" decoding="async" />
         </a>
         <nav class="nav" aria-label="Primary">
           <a class="nav__link" href="/">Home</a>
@@ -32,13 +32,25 @@
           <p class="page__kicker" data-reveal>Guild · Application</p>
           <h1 class="page__title" data-reveal style="--reveal-delay: 80ms">Apply to join.</h1>
           <p class="page__lede" data-reveal style="--reveal-delay: 160ms">
-            Tell us a little about you and the work you do.
-            A city admin will review your application and reply by email.
-            Fields marked <span class="req">*</span> are required.
+            Most members are working tour guides. Tour operators and agencies
+            apply on the same page — pick the right tab below. A city admin
+            reviews every application and replies by email.
           </p>
         </header>
 
-        <form id="apply-form" class="apply-form" novalidate autocomplete="on">
+        <!-- Tab selector — switches the form's field set between Guide and Operator. -->
+        <div class="apply-tabs" role="tablist" aria-label="Application type" data-reveal style="--reveal-delay: 200ms">
+          <button class="apply-tab is-active" type="button" data-tab="guide" role="tab" aria-selected="true" aria-controls="pane-guide">
+            Apply as Guide
+          </button>
+          <button class="apply-tab" type="button" data-tab="operator" role="tab" aria-selected="false" aria-controls="pane-operator">
+            Apply as Operator
+          </button>
+        </div>
+
+        <form id="apply-form" class="apply-form" novalidate autocomplete="on" data-tab="guide">
+          <!-- ───── GUIDE PANE ───── -->
+          <div class="apply-pane" data-pane="guide" id="pane-guide">
           <fieldset class="fieldset">
             <legend class="legend">You</legend>
 
@@ -113,6 +125,91 @@
               <textarea name="additionalInfo" rows="3" maxlength="800"></textarea>
             </label>
           </fieldset>
+          </div>
+          <!-- ───── /GUIDE PANE ───── -->
+
+          <!-- ───── OPERATOR PANE ───── -->
+          <div class="apply-pane" data-pane="operator" id="pane-operator" hidden>
+            <fieldset class="fieldset">
+              <legend class="legend">Operator</legend>
+
+              <label class="field">
+                <span class="label">Operator / company name <span class="req">*</span></span>
+                <input type="text" name="operatorName" autocomplete="organization" maxlength="160" placeholder="e.g. Old City Walks GmbH" />
+                <span class="error" data-error-for="operatorName"></span>
+              </label>
+
+              <label class="field">
+                <span class="label">Operator email <span class="req">*</span></span>
+                <input type="email" name="operatorEmail" autocomplete="email" maxlength="160" inputmode="email" />
+                <span class="hint">The email your operator account will sign in with.</span>
+                <span class="error" data-error-for="operatorEmail"></span>
+              </label>
+
+              <div class="row two">
+                <label class="field">
+                  <span class="label">Primary city <span class="req">*</span></span>
+                  <select name="operatorCity" required autocomplete="address-level2">
+                    <option value="Berlin" selected>Berlin</option>
+                  </select>
+                  <span class="hint">More cities open by invitation.</span>
+                </label>
+                <label class="field">
+                  <span class="label">Years in operation</span>
+                  <input type="number" name="operatorYears" min="0" max="200" inputmode="numeric" />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="fieldset">
+              <legend class="legend">Contact at your operator</legend>
+
+              <div class="row two">
+                <label class="field">
+                  <span class="label">First name</span>
+                  <input type="text" name="operatorFirstName" autocomplete="given-name" maxlength="80" />
+                </label>
+                <label class="field">
+                  <span class="label">Last name</span>
+                  <input type="text" name="operatorLastName" autocomplete="family-name" maxlength="80" />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="fieldset">
+              <legend class="legend">Your operation</legend>
+
+              <label class="field">
+                <span class="label">Website</span>
+                <input type="url" name="operatorWebsite" placeholder="https://" maxlength="240" autocomplete="url" />
+                <span class="hint">Optional — anywhere we can see the operator.</span>
+              </label>
+
+              <label class="field">
+                <span class="label">Types of tours you run</span>
+                <textarea name="operatorTours" rows="3" maxlength="800" placeholder="What kind of tours — walking, van, themed, private, group, multi-day, etc."></textarea>
+              </label>
+
+              <label class="field">
+                <span class="label">Specialism / niche</span>
+                <textarea name="operatorSpecialties" rows="2" maxlength="400" placeholder="History focus, cruise groups, food, family, accessibility, etc."></textarea>
+              </label>
+
+              <label class="field">
+                <span class="label">About your operation</span>
+                <textarea name="operatorAbout" rows="4" maxlength="800" placeholder="Briefly: how many guides do you work with, what stage you're at, why Guild fits."></textarea>
+              </label>
+            </fieldset>
+
+            <p class="apply-pane__note">
+              Approved operators receive a temporary password by email along with
+              a link to <a class="link" href="/upgrade">guild.guide/upgrade</a>.
+              The Operator tier (unlimited posts, priority placement, full guide
+              profiles) activates once you complete the Stripe subscription —
+              €10 per week, cancel any time.
+            </p>
+          </div>
+          <!-- ───── /OPERATOR PANE ───── -->
 
           <!-- Honeypot: bots fill this; humans never see it. -->
           <div class="hp" aria-hidden="true">
@@ -155,8 +252,6 @@
         </div>
       </div>
     </main>
-
-    <p class="footer-mark" aria-hidden="true">GUILD</p>
 
     <footer class="site-footer">
       <div class="wrap site-footer__inner">

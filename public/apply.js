@@ -11,9 +11,45 @@ const EMAIL_RE = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const form = document.getElementById('apply-form');
 const submitBtn = document.getElementById('submit-btn');
+const submitLabel = submitBtn?.querySelector('.submit-label');
 const formError = document.getElementById('form-error');
 const success = document.getElementById('success');
 const turnstileMount = document.getElementById('turnstile-mount');
+const tabs = document.querySelectorAll('.apply-tab');
+const panes = document.querySelectorAll('.apply-pane');
+const successTitle = success?.querySelector('.success-title');
+const successBody = success?.querySelector('.success-body');
+
+// ── Tab switching ─────────────────────────────────────────────────
+// The form starts in 'guide' mode; clicking the Operator tab swaps
+// the visible field set and changes the submit-button label so the
+// CTA reads as intended (Apply as guide vs Apply as operator).
+function setTab(tab) {
+  form.dataset.tab = tab;
+  tabs.forEach((b) => {
+    const active = b.dataset.tab === tab;
+    b.classList.toggle('is-active', active);
+    b.setAttribute('aria-selected', String(active));
+  });
+  panes.forEach((p) => {
+    p.hidden = p.dataset.pane !== tab;
+  });
+  if (submitLabel) {
+    submitLabel.textContent = tab === 'operator'
+      ? 'Send operator application'
+      : 'Send application';
+  }
+  // Clear errors when switching — they're scoped to the previously-
+  // visible fields and would otherwise read as orphan.
+  clearErrors();
+}
+
+tabs.forEach((b) => {
+  b.addEventListener('click', () => {
+    const t = b.dataset.tab;
+    if (t && t !== form.dataset.tab) setTab(t);
+  });
+});
 
 // Turnstile is only loaded if a site key was configured in apply.html.
 // When unset, we fall back to honeypot-only protection.
@@ -77,11 +113,20 @@ function clearErrors() {
 
 function validate(values) {
   let ok = true;
+  // For operators, the operatorName-derived error key is 'operatorName'
+  // / 'operatorEmail'; for guides it's 'email'. We unify on `email` in
+  // the payload but display errors against the visible field's name.
+  const isOperator = values.applicationType === 'operator';
+  const emailFieldName = isOperator ? 'operatorEmail' : 'email';
   if (!values.email) {
-    setError('email', 'Email is required.');
+    setError(emailFieldName, 'Email is required.');
     ok = false;
   } else if (!EMAIL_RE.test(values.email)) {
-    setError('email', 'Please enter a valid email address.');
+    setError(emailFieldName, 'Please enter a valid email address.');
+    ok = false;
+  }
+  if (isOperator && !values.operatorName) {
+    setError('operatorName', 'Operator name is required.');
     ok = false;
   }
   if (!values.city) {
@@ -95,21 +140,44 @@ function readForm() {
   const data = new FormData(form);
   const trim = (v) => (typeof v === 'string' ? v.trim() : v);
   const get = (k) => trim(data.get(k)) || undefined;
+  const num = (k) => (data.get(k) ? Number(data.get(k)) : undefined);
+
+  const tab = form.dataset.tab === 'operator' ? 'operator' : 'guide';
+
+  if (tab === 'operator') {
+    // Operator fields map onto the same submit-application payload keys
+    // as the Guide form, with applicationType + operatorName as the new
+    // signal. Server reuses years_guiding → years_in_operation,
+    // previous_companies → (unused), tours_offered → types of tours,
+    // specialties → niche, additional_info → about-your-operation.
+    return {
+      applicationType: 'operator',
+      operatorName: get('operatorName'),
+      email: get('operatorEmail'),
+      firstName: get('operatorFirstName'),
+      lastName: get('operatorLastName'),
+      city: get('operatorCity'),
+      yearsGuiding: num('operatorYears'),
+      website: get('operatorWebsite'),
+      toursOffered: get('operatorTours'),
+      specialties: get('operatorSpecialties'),
+      additionalInfo: get('operatorAbout'),
+      _hp: data.get('hp_company'),
+    };
+  }
 
   return {
+    applicationType: 'guide',
     email: get('email'),
     firstName: get('firstName'),
     lastName: get('lastName'),
     city: get('city'),
-    yearsGuiding: data.get('yearsGuiding')
-      ? Number(data.get('yearsGuiding'))
-      : undefined,
+    yearsGuiding: num('yearsGuiding'),
     website: get('website'),
     previousCompanies: get('previousCompanies'),
     toursOffered: get('toursOffered'),
     specialties: get('specialties'),
     additionalInfo: get('additionalInfo'),
-    // Honeypot — must be empty if a human submitted the form.
     _hp: data.get('hp_company'),
   };
 }
@@ -177,6 +245,17 @@ form.addEventListener('submit', async (event) => {
     await submit(values);
     setLoading(false);
     form.hidden = true;
+    // Tailor the success copy to the application type so operators see
+    // the Stripe-upgrade-next-step expectation set immediately.
+    if (values.applicationType === 'operator' && successTitle && successBody) {
+      successTitle.textContent = 'Operator application received.';
+      successBody.innerHTML =
+        'A city admin will review and reply by email. On approval you\'ll ' +
+        'receive a temporary password plus a link to ' +
+        '<a class="link" href="/upgrade">guild.guide/upgrade</a> to start ' +
+        'your €10/week Stripe subscription. The Operator tier activates ' +
+        'as soon as that first payment clears.';
+    }
     success.hidden = false;
     success.scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch (err) {
@@ -185,6 +264,20 @@ form.addEventListener('submit', async (event) => {
     setLoading(false);
   }
 });
+
+// Live email validation feedback on the operator email field (the
+// guide email already has its own listener below).
+const opEmail = form.elements.operatorEmail;
+if (opEmail) {
+  opEmail.addEventListener('blur', (e) => {
+    const v = e.target.value.trim();
+    if (v && !EMAIL_RE.test(v)) {
+      setError('operatorEmail', 'That doesn\'t look like a valid email.');
+    } else {
+      setError('operatorEmail', null);
+    }
+  });
+}
 
 // Live email validation feedback as the user types.
 form.elements.email.addEventListener('blur', (e) => {

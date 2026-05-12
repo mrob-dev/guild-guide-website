@@ -164,9 +164,9 @@
 
     sb.from('guide_applications')
       .select(
-        'id, first_name, last_name, email, city, years_guiding, website, ' +
-          'previous_companies, tours_offered, specialties, additional_info, ' +
-          'status, rejection_reason, created_at'
+        'id, application_type, operator_name, first_name, last_name, email, ' +
+          'city, years_guiding, website, previous_companies, tours_offered, ' +
+          'specialties, additional_info, status, rejection_reason, created_at'
       )
       .eq('status', currentStatus)
       .order('created_at', { ascending: false })
@@ -198,7 +198,17 @@
     li.className = 'app-card';
     li.dataset.appId = app.id;
 
-    var name = [app.first_name, app.last_name].filter(Boolean).join(' ') || 'Unnamed';
+    var isOperator = app.application_type === 'operator';
+    // For operators, the company is the primary identity. For guides,
+    // it's the person's name. Each is displayed with a subtitle showing
+    // the contact name (operators) or just the email (guides).
+    var primaryName = isOperator
+      ? (app.operator_name || app.email || 'Unnamed operator')
+      : ([app.first_name, app.last_name].filter(Boolean).join(' ') || 'Unnamed');
+    var contactSub = isOperator
+      ? ([app.first_name, app.last_name].filter(Boolean).join(' ').trim() || app.email || '')
+      : (app.email || '');
+
     var when = new Date(app.created_at);
     var whenLabel = when.toLocaleString(undefined, {
       year: 'numeric',
@@ -214,25 +224,47 @@
       '<p class="app-card__name"></p>' +
       '<p class="app-card__email"></p>' +
       '</div>' +
+      '<div class="app-card__head-right">' +
+      '<span class="app-card__type"></span>' +
       '<p class="app-card__meta"></p>' +
+      '</div>' +
       '</div>' +
       '<dl class="app-card__fields"></dl>' +
       '<div class="app-card__actions"></div>';
 
-    li.querySelector('.app-card__name').textContent = name;
-    li.querySelector('.app-card__email').textContent = app.email || '';
+    li.querySelector('.app-card__name').textContent = primaryName;
+    li.querySelector('.app-card__email').textContent = contactSub;
+    var typeBadge = li.querySelector('.app-card__type');
+    typeBadge.textContent = isOperator ? 'OPERATOR' : 'GUIDE';
+    typeBadge.classList.add(isOperator
+      ? 'app-card__type--operator'
+      : 'app-card__type--guide');
     li.querySelector('.app-card__meta').textContent =
       (app.city || 'Unknown city') + ' · ' + whenLabel;
 
     var fields = li.querySelector('.app-card__fields');
-    var rows = [
-      ['Years guiding', app.years_guiding != null ? String(app.years_guiding) : '—'],
-      ['Website', app.website || '—'],
-      ['Companies', app.previous_companies || '—'],
-      ['Tours', app.tours_offered || '—'],
-      ['Specialties', app.specialties || '—'],
-      ['Notes', app.additional_info || '—'],
-    ];
+    var rows;
+    if (isOperator) {
+      rows = [
+        ['Operator', app.operator_name || '—'],
+        ['Contact', [app.first_name, app.last_name].filter(Boolean).join(' ') || '—'],
+        ['Operator email', app.email || '—'],
+        ['Years operating', app.years_guiding != null ? String(app.years_guiding) : '—'],
+        ['Website', app.website || '—'],
+        ['Tour types', app.tours_offered || '—'],
+        ['Specialism', app.specialties || '—'],
+        ['About', app.additional_info || '—'],
+      ];
+    } else {
+      rows = [
+        ['Years guiding', app.years_guiding != null ? String(app.years_guiding) : '—'],
+        ['Website', app.website || '—'],
+        ['Companies', app.previous_companies || '—'],
+        ['Tours', app.tours_offered || '—'],
+        ['Specialties', app.specialties || '—'],
+        ['Notes', app.additional_info || '—'],
+      ];
+    }
     rows.forEach(function (pair) {
       var dt = document.createElement('div');
       dt.className = 'app-card__field';
