@@ -1135,6 +1135,18 @@ body::after {
      here so the JS (motion.js parallax handler) can own it. */
 }
 
+/* 25 % darken layer sitting on top of the photograph AND the orbs.
+   Brings the whole hero atmosphere down to ~75% brightness, independent
+   of the image's own opacity so contrast can be tuned without changing
+   the photo's tonal range. */
+.hero__darken {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.25);
+}
+
 /* Cloudy / pixellated noise overlay — monopo-style atmospheric texture.
    Generated inline as an SVG feTurbulence so we ship zero extra bytes
    and the texture stays crisp at any DPR. */
