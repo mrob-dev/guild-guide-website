@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Upgrade to Operator — Guild</title>
+    <meta name="description" content="Upgrade to an Operator account on Guild. €10/week — unlimited job posts, priority placement, and full guide profile access." />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/png" href="/guild-logo.png" />
+    <link rel="apple-touch-icon" href="/guild-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="page">
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="/" aria-label="Guild — home">
+          <img class="brand__mark" src="/guild-logo.png" alt="Guild" width="24" height="24" decoding="async" />
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a class="nav__link" href="/">Home</a>
+          <a class="nav__link" href="/apply">Apply</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page__main">
+      <div class="wrap">
+        <header class="page__header">
+          <p class="page__kicker" data-reveal>Guild · Operator tier</p>
+          <h1 class="page__title" data-reveal style="--reveal-delay: 80ms">Upgrade to Operator.</h1>
+          <p class="page__lede" data-reveal style="--reveal-delay: 160ms">
+            For tour operators and agencies who post regularly.
+            <strong>€10 per week</strong>, cancel any time.
+          </p>
+        </header>
+
+        <section class="upgrade" aria-labelledby="upgrade-form-heading" data-reveal style="--reveal-delay: 240ms">
+          <div class="upgrade__compare">
+            <h2 id="upgrade-compare-heading" class="upgrade__subtitle">What changes</h2>
+            <ul class="upgrade__list">
+              <li><strong>Unlimited job posts</strong> — no weekly cap.</li>
+              <li><strong>Priority placement</strong> — every Operator job is flagged priority. All members get a push notification when you post.</li>
+              <li><strong>Full guide profiles</strong> — see response time, current companies, tour specialties, and bios when you view a guide.</li>
+              <li><strong>Operator badge</strong> — every member sees the Operator pill on your profile.</li>
+            </ul>
+            <p class="upgrade__price">€10 / week · billed via Stripe</p>
+          </div>
+
+          <form id="upgrade-form" class="upgrade-form" novalidate autocomplete="on">
+            <h2 id="upgrade-form-heading" class="upgrade__subtitle">Start checkout</h2>
+
+            <label class="field">
+              <span class="label">Account email <span class="req">*</span></span>
+              <input
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                maxlength="160"
+                inputmode="email"
+                placeholder="you@operator.com"
+              />
+              <span class="hint">The email of your existing Guild account. Your tier flips to Operator once payment completes.</span>
+              <span class="error" data-error-for="email"></span>
+            </label>
+
+            <p class="form-error" id="form-error" role="alert" aria-live="polite"></p>
+
+            <div class="actions">
+              <button type="submit" class="submit" id="submit-btn" data-magnetic>
+                <span class="submit-label">Continue to Stripe</span>
+                <span class="submit-spinner" aria-hidden="true"></span>
+              </button>
+              <p class="legalese">
+                Payment is processed by Stripe. Guild never sees your card details.
+                Subscription auto-renews weekly; cancel from your billing portal.
+              </p>
+            </div>
+          </form>
+        </section>
+
+        <p class="upgrade__back">
+          Just curious? <a class="link" href="/">Back to Guild</a> ·
+          Not a member yet? <a class="link" href="/apply">Apply first</a>.
+        </p>
+      </div>
+    </main>
+
+    <p class="footer-mark" aria-hidden="true">GUILD</p>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p>© <span data-year></span> Guild</p>
+        <nav class="site-footer__links" aria-label="Legal">
+          <a href="/imprint">Imprint</a>
+          <a href="/privacy">Privacy</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script defer src="/motion.js"></script>
+    <script src="/upgrade.js" defer></script>
+  </body>
+</html>

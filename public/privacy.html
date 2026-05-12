@@ -3,145 +3,160 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Privacy — Guild</title>
-    <meta name="description" content="Privacy policy (Datenschutzerklärung) for Guild." />
-    <meta name="theme-color" content="#10161C" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2310161C'/%3E%3Cpath d='M16 8.5l6.5 3.4v6.2c0 3.5-2.7 6.4-6.5 7.4-3.8-1-6.5-3.9-6.5-7.4v-6.2L16 8.5z' fill='none' stroke='%232E8C82' stroke-width='2'/%3E%3C/svg%3E" />
+    <title>Privacy policy — Guild</title>
+    <meta name="description" content="What personal data Guild collects, why, and your rights under GDPR." />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/png" href="/guild-logo.png" />
+    <link rel="apple-touch-icon" href="/guild-logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body class="apply-page">
-    <div class="halo" aria-hidden="true"></div>
-
-    <header class="apply-header">
-      <a class="apply-back" href="/">
-        <span aria-hidden="true">←</span>
-        <span>Guild</span>
-      </a>
+  <body class="page">
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="/" aria-label="Guild — home">
+          <img class="brand__mark" src="/guild-logo.png" alt="Guild" width="24" height="24" decoding="async" />
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a class="nav__link" href="/">Home</a>
+        </nav>
+      </div>
     </header>
 
-    <main class="apply-stage">
-      <section class="apply-card legal">
-        <p class="kicker">Guild · Privacy</p>
-        <h1 class="apply-title">Privacy policy</h1>
-        <p class="apply-lede">
-          This page explains what personal data Guild collects through
-          this website, why, and what your rights are under the EU
-          General Data Protection Regulation (GDPR).
-        </p>
+    <main class="page__main">
+      <div class="wrap">
+        <header class="page__header">
+          <p class="page__kicker" data-reveal>Guild · Privacy</p>
+          <h1 class="page__title" data-reveal style="--reveal-delay: 80ms">Privacy policy.</h1>
+          <p class="page__lede" data-reveal style="--reveal-delay: 160ms">
+            What personal data Guild collects through this website, why,
+            and your rights under the EU General Data Protection Regulation (GDPR).
+          </p>
+        </header>
 
-        <h2>Controller</h2>
-        <p>
-          The controller responsible for processing personal data on
-          this site is:
-        </p>
-        <p>
-          Matt Robinson<br>
-          [Street and number]<br>
-          [Postal code] Berlin, Germany<br>
-          Email:
-          <a href="mailto:hello@guild.guide">hello@guild.guide</a>
-        </p>
+        <article class="prose" data-reveal style="--reveal-delay: 240ms">
+          <h2>Controller</h2>
+          <p>
+            The controller responsible for processing personal data on this site is:
+          </p>
+          <p>
+            Matt Robinson<br>
+            [Street and number]<br>
+            [Postal code] Berlin, Germany<br>
+            Email: <a href="mailto:hello@guild.guide">hello@guild.guide</a>
+          </p>
 
-        <h2>What data we collect, and why</h2>
+          <h2>What data we collect, and why</h2>
 
-        <h3>1. Application form (<a href="/apply">guild.guide/apply</a>)</h3>
-        <p>
-          When you submit an application to join Guild, we collect:
-        </p>
-        <ul>
-          <li>Email address (required, used to contact you)</li>
-          <li>First and last name</li>
-          <li>Base city</li>
-          <li>Years of experience guiding, website, prior employers,
-              tours offered, specialties, and any additional information you choose to share</li>
-        </ul>
-        <p>
-          <strong>Legal basis:</strong> Art. 6(1)(b) GDPR — processing
-          is necessary to take steps at your request prior to entering
-          into a contract (your application to join).
-        </p>
-        <p>
-          <strong>Recipients:</strong> the city admin responsible for
-          your stated base city, who reviews applications. We do not
-          share your application with anyone else.
-        </p>
-        <p>
-          <strong>Retention:</strong> approved applications are retained
-          for the lifetime of your Guild account. Rejected applications
-          are deleted within 90 days.
-        </p>
+          <h3>1. Application form (<a href="/apply">guild.guide/apply</a>)</h3>
+          <p>When you submit an application to join Guild, we collect:</p>
+          <ul>
+            <li>Email address (required, used to contact you)</li>
+            <li>First and last name</li>
+            <li>Base city</li>
+            <li>Years of experience guiding, website, prior employers,
+                tours offered, specialties, and any additional information you choose to share</li>
+          </ul>
+          <p>
+            <strong>Legal basis:</strong> Art. 6(1)(b) GDPR — processing
+            is necessary to take steps at your request prior to entering
+            into a contract (your application to join).
+          </p>
+          <p>
+            <strong>Recipients:</strong> the city admin responsible for
+            your stated base city, who reviews applications. We do not
+            share your application with anyone else.
+          </p>
+          <p>
+            <strong>Retention:</strong> approved applications are retained
+            for the lifetime of your Guild account. Rejected applications
+            are deleted within 90 days.
+          </p>
 
-        <h3>2. Server access logs</h3>
-        <p>
-          Our hosting provider records standard HTTP access logs (IP
-          address, timestamp, request URL, user-agent) for security and
-          abuse-prevention purposes. These logs are kept for up to 30
-          days and are not combined with any other personal data.
-        </p>
-        <p>
-          <strong>Legal basis:</strong> Art. 6(1)(f) GDPR — legitimate
-          interest in operating the service securely.
-        </p>
+          <h3>2. Server access logs</h3>
+          <p>
+            Our hosting provider records standard HTTP access logs (IP
+            address, timestamp, request URL, user-agent) for security and
+            abuse-prevention purposes. These logs are kept for up to 30
+            days and are not combined with any other personal data.
+          </p>
+          <p>
+            <strong>Legal basis:</strong> Art. 6(1)(f) GDPR — legitimate
+            interest in operating the service securely.
+          </p>
 
-        <h3>3. No analytics or advertising trackers</h3>
-        <p>
-          This website does not use Google Analytics, Facebook Pixel, or
-          any other third-party analytics or advertising tools. There
-          are no marketing cookies and no profile-building.
-        </p>
+          <h3>3. No analytics or advertising trackers</h3>
+          <p>
+            This website does not use Google Analytics, Facebook Pixel, or
+            any other third-party analytics or advertising tools. There
+            are no marketing cookies and no profile-building.
+          </p>
 
-        <h2>How we store and protect your data</h2>
-        <p>
-          Application data is stored in our database hosted by Supabase
-          GmbH (an EU-based service provider). Email delivery is
-          handled by Resend. Both processors are bound by data
-          processing agreements that comply with GDPR Art.&nbsp;28.
-          Data is encrypted in transit (HTTPS) and at rest.
-        </p>
+          <h2>How we store and protect your data</h2>
+          <p>
+            Application data is stored in our database hosted by Supabase
+            GmbH (an EU-based service provider). Email delivery is
+            handled by Resend. Both processors are bound by data
+            processing agreements that comply with GDPR Art.&nbsp;28.
+            Data is encrypted in transit (HTTPS) and at rest.
+          </p>
 
-        <h2>Your rights</h2>
-        <p>Under GDPR you have the right to:</p>
-        <ul>
-          <li>Access the personal data we hold about you (Art.&nbsp;15)</li>
-          <li>Correct inaccurate data (Art.&nbsp;16)</li>
-          <li>Request erasure of your data (Art.&nbsp;17)</li>
-          <li>Restrict or object to processing (Art.&nbsp;18 and 21)</li>
-          <li>Data portability — receive your data in a machine-readable format (Art.&nbsp;20)</li>
-          <li>Withdraw consent at any time, where applicable</li>
-          <li>Lodge a complaint with a supervisory authority (Art.&nbsp;77).
-            For Berlin, that is the
-            <a href="https://www.datenschutz-berlin.de/" rel="noopener" target="_blank">
-              Berlin Commissioner for Data Protection and Freedom of Information
-            </a>.
-          </li>
-        </ul>
-        <p>
-          To exercise any of these rights, email
-          <a href="mailto:hello@guild.guide">hello@guild.guide</a>.
-          We will respond within 30 days as required by GDPR.
-        </p>
+          <h2>Your rights</h2>
+          <p>Under GDPR you have the right to:</p>
+          <ul>
+            <li>Access the personal data we hold about you (Art.&nbsp;15)</li>
+            <li>Correct inaccurate data (Art.&nbsp;16)</li>
+            <li>Request erasure of your data (Art.&nbsp;17)</li>
+            <li>Restrict or object to processing (Art.&nbsp;18 and 21)</li>
+            <li>Data portability — receive your data in a machine-readable format (Art.&nbsp;20)</li>
+            <li>Withdraw consent at any time, where applicable</li>
+            <li>Lodge a complaint with a supervisory authority (Art.&nbsp;77).
+              For Berlin, that is the
+              <a href="https://www.datenschutz-berlin.de/" rel="noopener" target="_blank">Berlin Commissioner for Data Protection and Freedom of Information</a>.
+            </li>
+          </ul>
+          <p>
+            To exercise any of these rights, email
+            <a href="mailto:hello@guild.guide">hello@guild.guide</a>.
+            We will respond within 30 days as required by GDPR.
+          </p>
 
-        <h2>Cookies</h2>
-        <p>
-          This website does not set tracking, analytics, or advertising
-          cookies. The application form uses no cookies at all. Your
-          browser may store small amounts of state related to its own
-          operation; these are not set by us.
-        </p>
+          <h2>Cookies</h2>
+          <p>
+            This website does not set tracking, analytics, or advertising
+            cookies. The application form uses no cookies at all. Your
+            browser may store small amounts of state related to its own
+            operation; these are not set by us.
+          </p>
 
-        <h2>Changes to this policy</h2>
-        <p>
-          We may update this policy if our data practices change. The
-          "last updated" date below reflects the most recent revision.
-          Material changes affecting your rights will be communicated
-          to applicants by email.
-        </p>
+          <h2>Changes to this policy</h2>
+          <p>
+            We may update this policy if our data practices change. The
+            "last updated" date below reflects the most recent revision.
+            Material changes affecting your rights will be communicated
+            to applicants by email.
+          </p>
 
-        <p class="legal-meta">Last updated: <time datetime="2026-05-09">9 May 2026</time></p>
-      </section>
+          <p class="legal-meta">Last updated: <time datetime="2026-05-09">9 May 2026</time></p>
+        </article>
+      </div>
     </main>
+
+    <p class="footer-mark" aria-hidden="true">GUILD</p>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p>© <span data-year></span> Guild</p>
+        <nav class="site-footer__links" aria-label="Legal">
+          <a href="/imprint">Imprint</a>
+          <a href="/privacy">Privacy</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script defer src="/motion.js"></script>
   </body>
 </html>

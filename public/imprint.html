@@ -5,86 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Imprint — Guild</title>
     <meta name="description" content="Legal notice (Impressum) for Guild." />
-    <meta name="theme-color" content="#10161C" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2310161C'/%3E%3Cpath d='M16 8.5l6.5 3.4v6.2c0 3.5-2.7 6.4-6.5 7.4-3.8-1-6.5-3.9-6.5-7.4v-6.2L16 8.5z' fill='none' stroke='%232E8C82' stroke-width='2'/%3E%3C/svg%3E" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/png" href="/guild-logo.png" />
+    <link rel="apple-touch-icon" href="/guild-logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body class="apply-page">
-    <div class="halo" aria-hidden="true"></div>
-
-    <header class="apply-header">
-      <a class="apply-back" href="/">
-        <span aria-hidden="true">←</span>
-        <span>Guild</span>
-      </a>
+  <body class="page">
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="/" aria-label="Guild — home">
+          <img class="brand__mark" src="/guild-logo.png" alt="Guild" width="24" height="24" decoding="async" />
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a class="nav__link" href="/">Home</a>
+        </nav>
+      </div>
     </header>
 
-    <main class="apply-stage">
-      <section class="apply-card legal">
-        <p class="kicker">Guild · Imprint</p>
-        <h1 class="apply-title">Imprint / Impressum</h1>
-        <p class="apply-lede">
-          Legal notice in accordance with §&nbsp;5 TMG and §&nbsp;55 RStV.
-        </p>
+    <main class="page__main">
+      <div class="wrap">
+        <header class="page__header">
+          <p class="page__kicker" data-reveal>Guild · Imprint</p>
+          <h1 class="page__title" data-reveal style="--reveal-delay: 80ms">Imprint / Impressum.</h1>
+          <p class="page__lede" data-reveal style="--reveal-delay: 160ms">
+            Legal notice in accordance with §&nbsp;5 TMG and §&nbsp;55 RStV.
+          </p>
+        </header>
 
-        <h2>Contact</h2>
-        <p>
-          Matt Robinson<br>
-          [Street and number]<br>
-          [Postal code] Berlin<br>
-          Germany
-        </p>
-        <p>
-          Email:
-          <a href="mailto:hello@guild.guide">hello@guild.guide</a>
-        </p>
+        <article class="prose" data-reveal style="--reveal-delay: 240ms">
+          <h2>Contact</h2>
+          <p>
+            Matt Robinson<br>
+            [Street and number]<br>
+            [Postal code] Berlin<br>
+            Germany
+          </p>
+          <p>
+            Email: <a href="mailto:hello@guild.guide">hello@guild.guide</a>
+          </p>
 
-        <h2>Responsible for content</h2>
-        <p>Matt Robinson, address as above.</p>
+          <h2>Responsible for content</h2>
+          <p>Matt Robinson, address as above.</p>
 
-        <h2>EU online dispute resolution</h2>
-        <p>
-          The European Commission provides a platform for online dispute
-          resolution (ODR) at
-          <a href="https://ec.europa.eu/consumers/odr/" rel="noopener" target="_blank">ec.europa.eu/consumers/odr/</a>.
-          We are not obliged or willing to participate in dispute
-          resolution proceedings before a consumer arbitration board.
-        </p>
+          <h2>EU online dispute resolution</h2>
+          <p>
+            The European Commission provides a platform for online dispute
+            resolution (ODR) at
+            <a href="https://ec.europa.eu/consumers/odr/" rel="noopener" target="_blank">ec.europa.eu/consumers/odr/</a>.
+            We are not obliged or willing to participate in dispute
+            resolution proceedings before a consumer arbitration board.
+          </p>
 
-        <h2>Liability for content</h2>
-        <p>
-          As a service provider, we are responsible for our own content
-          on these pages in accordance with general law (§&nbsp;7 (1) TMG).
-          According to §§&nbsp;8 to 10 TMG, we are not obligated to monitor
-          transmitted or stored third-party information, or to investigate
-          circumstances that indicate illegal activity. Obligations to
-          remove or block the use of information under general laws
-          remain unaffected.
-        </p>
+          <h2>Liability for content</h2>
+          <p>
+            As a service provider, we are responsible for our own content
+            on these pages in accordance with general law (§&nbsp;7 (1) TMG).
+            According to §§&nbsp;8 to 10 TMG, we are not obligated to monitor
+            transmitted or stored third-party information, or to investigate
+            circumstances that indicate illegal activity. Obligations to
+            remove or block the use of information under general laws
+            remain unaffected.
+          </p>
 
-        <h2>Liability for links</h2>
-        <p>
-          Our website contains links to external third-party websites
-          over whose content we have no influence. Therefore, we cannot
-          assume any liability for this external content. The respective
-          provider or operator of the linked pages is always responsible
-          for their content.
-        </p>
+          <h2>Liability for links</h2>
+          <p>
+            Our website contains links to external third-party websites
+            over whose content we have no influence. Therefore, we cannot
+            assume any liability for this external content. The respective
+            provider or operator of the linked pages is always responsible
+            for their content.
+          </p>
 
-        <h2>Copyright</h2>
-        <p>
-          The content and works on these pages created by the site
-          operator are subject to German copyright law. Duplication,
-          processing, distribution, and any form of commercialization of
-          such material beyond the scope of copyright law require the
-          written consent of the respective author or creator.
-        </p>
+          <h2>Copyright</h2>
+          <p>
+            The content and works on these pages created by the site
+            operator are subject to German copyright law. Duplication,
+            processing, distribution, and any form of commercialization of
+            such material beyond the scope of copyright law require the
+            written consent of the respective author or creator.
+          </p>
 
-        <p class="legal-meta">Last updated: <time datetime="2026-05-09">9 May 2026</time></p>
-      </section>
+          <p class="legal-meta">Last updated: <time datetime="2026-05-09">9 May 2026</time></p>
+        </article>
+      </div>
     </main>
+
+    <p class="footer-mark" aria-hidden="true">GUILD</p>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p>© <span data-year></span> Guild</p>
+        <nav class="site-footer__links" aria-label="Legal">
+          <a href="/imprint">Imprint</a>
+          <a href="/privacy">Privacy</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script defer src="/motion.js"></script>
   </body>
 </html>

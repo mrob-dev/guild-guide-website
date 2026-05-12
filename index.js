@@ -9,7 +9,7 @@ const app = express();
 app.disable('x-powered-by');
 app.use(express.static(PUBLIC_DIR));
 
-// Pretty URLs: /apply -> apply.html, /imprint -> imprint.html, /privacy -> privacy.html
+// Pretty URLs: /apply, /imprint, /privacy, /upgrade
 app.get('/apply', (req, res) => {
   res.sendFile(path.join(PUBLIC_DIR, 'apply.html'));
 });
@@ -18,6 +18,9 @@ app.get('/imprint', (req, res) => {
 });
 app.get('/privacy', (req, res) => {
   res.sendFile(path.join(PUBLIC_DIR, 'privacy.html'));
+});
+app.get('/upgrade', (req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, 'upgrade.html'));
 });
 
 app.use((req, res) => {

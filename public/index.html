@@ -3,48 +3,241 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Guild — Coming Soon</title>
-    <meta name="description" content="Guild — for guides who know the way. Coming soon." />
-    <meta name="theme-color" content="#10161C" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2310161C'/%3E%3Cpath d='M16 8.5l6.5 3.4v6.2c0 3.5-2.7 6.4-6.5 7.4-3.8-1-6.5-3.9-6.5-7.4v-6.2L16 8.5z' fill='none' stroke='%232E8C82' stroke-width='2'/%3E%3C/svg%3E" />
+    <title>Guild — A vetted community for working tour guides</title>
+    <meta name="description" content="Guild is a vetted community for working tour guides. Find work, swap leads, and stay close to the people who do this for a living. Berlin first, more cities by invitation." />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:title" content="Guild — You know the routes. We're building the room." />
+    <meta property="og:description" content="A vetted community for working tour guides. Berlin first, more cities by invitation." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://guild.guide" />
+    <link rel="icon" type="image/png" href="/guild-logo.png" />
+    <link rel="apple-touch-icon" href="/guild-logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <main class="stage">
-      <div class="halo" aria-hidden="true"></div>
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="/" aria-label="Guild — home">
+          <img class="brand__mark" src="/guild-logo.png" alt="Guild" width="24" height="24" decoding="async" />
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a class="nav__link" href="#what">What it is</a>
+          <a class="nav__link" href="#who">Who it's for</a>
+          <a class="btn btn--ghost" href="/apply">Apply</a>
+        </nav>
+      </div>
+    </header>
 
-      <section class="card" role="status" aria-live="polite">
-        <p class="kicker">Guild</p>
-        <h1 class="banner">Coming Soon</h1>
+    <main>
+      <!-- HERO ============================================================ -->
+      <section class="hero" aria-labelledby="hero-headline">
+        <div class="hero__orbs" aria-hidden="true">
+          <span class="hero__orb hero__orb--a"></span>
+          <span class="hero__orb hero__orb--b"></span>
+          <span class="hero__orb hero__orb--c"></span>
+        </div>
+        <div class="hero__veil" aria-hidden="true"></div>
 
-        <p class="tagline">For Guides Who Know the Way</p>
+        <div class="wrap hero__inner">
+          <p class="hero__kicker">Guild · Berlin</p>
+          <h1 id="hero-headline" class="hero__headline">
+            <span class="hero__line">
+              <span class="hero__word" style="--i: 0">You</span>
+              <span class="hero__word" style="--i: 1">know</span>
+              <span class="hero__word" style="--i: 2">the</span>
+              <span class="hero__word" style="--i: 3">routes.</span>
+            </span>
+            <br>
+            <span class="hero__line">
+              <span class="hero__word" style="--i: 4">We're</span>
+              <span class="hero__word" style="--i: 5">building</span>
+              <span class="hero__word" style="--i: 6">the</span>
+              <span class="hero__word" style="--i: 7">room.</span>
+            </span>
+          </h1>
+          <p class="hero__lede">
+            A small, vetted community for professional tour guides.
+            Find work, swap leads, and stay close to the people who do this for a living.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary btn--arrow" href="/apply" data-magnetic>Apply to join</a>
+            <a class="btn btn--ghost" href="#what">What it is</a>
+          </div>
+          <p class="hero__meta">Berlin first · more cities by invitation</p>
+        </div>
 
-        <p class="cta-row">
-          <a class="cta" href="/apply">
-            Apply to join
-            <span class="cta-arrow" aria-hidden="true">→</span>
-          </a>
-        </p>
+        <div class="scroll-cue" aria-hidden="true">
+          <span class="scroll-cue__label">Scroll</span>
+          <span class="scroll-cue__line"></span>
+        </div>
+      </section>
 
-        <div class="rule" aria-hidden="true"></div>
-        <p class="footnote">
-          © <span id="year"></span> Guild
-          <span class="footnote-sep" aria-hidden="true">·</span>
-          <a class="footnote-link" href="/imprint">Imprint</a>
-          <span class="footnote-sep" aria-hidden="true">·</span>
-          <a class="footnote-link" href="/privacy">Privacy</a>
-        </p>
+      <!-- MARQUEE ========================================================= -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span class="marquee__item">Berlin</span>
+          <span class="marquee__item">Vetted city by city</span>
+          <span class="marquee__item">Working tour guides only</span>
+          <span class="marquee__item">No commissions</span>
+          <span class="marquee__item">No middlemen</span>
+          <span class="marquee__item">A room, not a marketplace</span>
+          <span class="marquee__item">Reviewed before you join</span>
+          <span class="marquee__item">Opening cities by invitation</span>
+          <!-- Duplicate set — required for seamless -50% loop. -->
+          <span class="marquee__item">Berlin</span>
+          <span class="marquee__item">Vetted city by city</span>
+          <span class="marquee__item">Working tour guides only</span>
+          <span class="marquee__item">No commissions</span>
+          <span class="marquee__item">No middlemen</span>
+          <span class="marquee__item">A room, not a marketplace</span>
+          <span class="marquee__item">Reviewed before you join</span>
+          <span class="marquee__item">Opening cities by invitation</span>
+        </div>
+      </div>
+
+      <!-- WHAT GUILD IS =================================================== -->
+      <section class="section" id="what" data-reveal>
+        <div class="wrap">
+          <p class="eyebrow" data-reveal>What Guild is</p>
+          <h2 class="section__title" data-reveal style="--reveal-delay: 80ms">A working community, not a marketplace.</h2>
+          <p class="section__lede" data-reveal style="--reveal-delay: 160ms">
+            Guild exists for guides — the people doing the actual work.
+            No commissions, no skimming, no race to the bottom.
+            Built around three things.
+          </p>
+
+          <div class="stanzas">
+            <article class="stanza" data-reveal style="--reveal-delay: 240ms">
+              <p class="stanza__num">01</p>
+              <h3 class="stanza__head">Find and share work</h3>
+              <p class="stanza__body">
+                Post jobs when you can't cover them.
+                Pick up jobs from guides you trust.
+                See who's posting and who's responding — no anonymous platform middle.
+              </p>
+            </article>
+
+            <article class="stanza" data-reveal style="--reveal-delay: 320ms">
+              <p class="stanza__num">02</p>
+              <h3 class="stanza__head">Stay in the loop</h3>
+              <p class="stanza__body">
+                Threads for the questions that keep coming up — routes, permits, neighbourhoods,
+                difficult groups. People answer because they're in the room.
+              </p>
+            </article>
+
+            <article class="stanza" data-reveal style="--reveal-delay: 400ms">
+              <p class="stanza__num">03</p>
+              <h3 class="stanza__head">Vetted, city by city</h3>
+              <p class="stanza__body">
+                Every member is reviewed by a city admin before joining.
+                That's slow on purpose — it's what keeps the signal high
+                and the conversation worth showing up for.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- TIERS COMPARISON =============================================== -->
+      <section class="section" id="tiers" data-reveal>
+        <div class="wrap">
+          <p class="eyebrow" data-reveal>Two ways in</p>
+          <h2 class="section__title" data-reveal style="--reveal-delay: 80ms">Guide or Operator.</h2>
+          <p class="section__lede" data-reveal style="--reveal-delay: 160ms">
+            Most members are working guides — the Guide tier is free.
+            Tour operators and agencies who post regularly upgrade to Operator
+            for unlimited posting, priority placement, and the full guide directory.
+          </p>
+
+          <div class="tier-grid" data-reveal style="--reveal-delay: 240ms">
+            <article class="tier-card">
+              <header class="tier-card__head">
+                <p class="tier-card__kicker">Guide</p>
+                <p class="tier-card__price"><strong>Free</strong></p>
+              </header>
+              <ul class="tier-card__list">
+                <li>Read every job post in your city</li>
+                <li>Post <strong>1 job per week</strong> (Mon 00:00 local reset)</li>
+                <li>€2 to <strong>bump</strong> a post into the Priority lane for 24h</li>
+                <li>€2 to post an extra job beyond the weekly cap</li>
+                <li>See other guides' name, languages, city, photo</li>
+                <li>Forum, direct messages, in-app notifications</li>
+              </ul>
+              <p class="tier-card__cta">
+                <a class="btn btn--ghost" href="/apply">Apply to join</a>
+              </p>
+            </article>
+
+            <article class="tier-card tier-card--featured">
+              <header class="tier-card__head">
+                <p class="tier-card__kicker">Operator</p>
+                <p class="tier-card__price"><strong>€10</strong> / week</p>
+              </header>
+              <ul class="tier-card__list">
+                <li><strong>Unlimited</strong> job posts</li>
+                <li>Every Operator post is <strong>priority</strong> — pushes to every member's phone</li>
+                <li>Full guide profiles — response time, companies, bio, tours</li>
+                <li>Operator badge visible to every member</li>
+                <li>Cancel any time from the Stripe billing portal</li>
+              </ul>
+              <p class="tier-card__cta">
+                <a class="btn btn--primary btn--arrow" href="/upgrade" data-magnetic>Upgrade to Operator</a>
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHO IT'S FOR ==================================================== -->
+      <section class="section" id="who" data-reveal>
+        <div class="wrap">
+          <p class="eyebrow" data-reveal>Who it's for</p>
+          <h2 class="section__title" data-reveal style="--reveal-delay: 80ms">Working tour guides — in Berlin, for now.</h2>
+          <p class="section__lede" data-reveal style="--reveal-delay: 160ms">
+            If you guide for a living — staff, freelance, or running your own outfit —
+            Guild is built for you. We're opening cities one at a time, by invitation,
+            because each city needs an admin who knows the scene.
+            Berlin is first because that's where we are.
+          </p>
+        </div>
+      </section>
+
+      <!-- CLOSING CTA ===================================================== -->
+      <section class="section" data-reveal>
+        <div class="wrap">
+          <div class="cta-panel" data-reveal>
+            <div class="cta-panel__gradient" aria-hidden="true"></div>
+            <div class="cta-panel__veil" aria-hidden="true"></div>
+            <h2 class="cta-panel__title">Apply to join the Berlin guild.</h2>
+            <p class="cta-panel__lede">
+              Tell us a little about you and the work you do.
+              A city admin will review your application and reply by email.
+            </p>
+            <p class="cta-panel__actions">
+              <a class="btn btn--primary btn--arrow" href="/apply" data-magnetic>Apply to join</a>
+            </p>
+          </div>
+        </div>
       </section>
     </main>
 
-    <script>
-      document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
+    <p class="footer-mark" aria-hidden="true">GUILD</p>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p>© <span data-year></span> Guild</p>
+        <nav class="site-footer__links" aria-label="Legal">
+          <a href="/imprint">Imprint</a>
+          <a href="/privacy">Privacy</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script defer src="/motion.js"></script>
   </body>
 </html>

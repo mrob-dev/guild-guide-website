@@ -3,35 +3,40 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Apply to Guild — For Guides Who Know the Way</title>
-    <meta name="description" content="Apply to join Guild. We'll review your application and get back to you by email." />
-    <meta name="theme-color" content="#10161C" />
+    <title>Apply to Guild — For guides who know the way</title>
+    <meta name="description" content="Apply to join Guild. A city admin will review your application and reply by email." />
+    <meta name="theme-color" content="#000000" />
     <meta name="robots" content="noindex" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2310161C'/%3E%3Cpath d='M16 8.5l6.5 3.4v6.2c0 3.5-2.7 6.4-6.5 7.4-3.8-1-6.5-3.9-6.5-7.4v-6.2L16 8.5z' fill='none' stroke='%232E8C82' stroke-width='2'/%3E%3C/svg%3E" />
+    <link rel="icon" type="image/png" href="/guild-logo.png" />
+    <link rel="apple-touch-icon" href="/guild-logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body class="apply-page">
-    <div class="halo" aria-hidden="true"></div>
-
-    <header class="apply-header">
-      <a class="apply-back" href="/">
-        <span aria-hidden="true">←</span>
-        <span>Guild</span>
-      </a>
+  <body class="page">
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="/" aria-label="Guild — home">
+          <img class="brand__mark" src="/guild-logo.png" alt="Guild" width="24" height="24" decoding="async" />
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a class="nav__link" href="/">Home</a>
+        </nav>
+      </div>
     </header>
 
-    <main class="apply-stage">
-      <section class="apply-card">
-        <p class="kicker">Guild · Application</p>
-        <h1 class="apply-title">Apply to join</h1>
-        <p class="apply-lede">
-          Tell us a little about you and the work you do.
-          A city admin will review your application and respond by email.
-          The fields with <span class="req">*</span> are required.
-        </p>
+    <main class="page__main">
+      <div class="wrap">
+        <header class="page__header">
+          <p class="page__kicker" data-reveal>Guild · Application</p>
+          <h1 class="page__title" data-reveal style="--reveal-delay: 80ms">Apply to join.</h1>
+          <p class="page__lede" data-reveal style="--reveal-delay: 160ms">
+            Tell us a little about you and the work you do.
+            A city admin will review your application and reply by email.
+            Fields marked <span class="req">*</span> are required.
+          </p>
+        </header>
 
         <form id="apply-form" class="apply-form" novalidate autocomplete="on">
           <fieldset class="fieldset">
@@ -57,18 +62,10 @@
             <div class="row two">
               <label class="field">
                 <span class="label">Base city <span class="req">*</span></span>
-                <input
-                  type="text"
-                  name="city"
-                  list="city-suggestions"
-                  required
-                  autocomplete="address-level2"
-                  maxlength="80"
-                  placeholder="e.g. Berlin"
-                />
-                <datalist id="city-suggestions">
-                  <option value="Berlin"></option>
-                </datalist>
+                <select name="city" required autocomplete="address-level2">
+                  <option value="Berlin" selected>Berlin</option>
+                </select>
+                <span class="hint">More cities open by invitation as Guild expands.</span>
               </label>
               <label class="field">
                 <span class="label">Years guiding</span>
@@ -99,7 +96,7 @@
 
             <label class="field">
               <span class="label">Tours you offer</span>
-              <textarea name="toursOffered" rows="3" maxlength="800" placeholder="A few words on what you guide — themes, neighborhoods, formats."></textarea>
+              <textarea name="toursOffered" rows="3" maxlength="800" placeholder="A few words on what you guide — themes, neighbourhoods, formats."></textarea>
             </label>
           </fieldset>
 
@@ -132,7 +129,7 @@
           <p class="form-error" id="form-error" role="alert" aria-live="polite"></p>
 
           <div class="actions">
-            <button type="submit" class="submit" id="submit-btn">
+            <button type="submit" class="submit" id="submit-btn" data-magnetic>
               <span class="submit-label">Send application</span>
               <span class="submit-spinner" aria-hidden="true"></span>
             </button>
@@ -144,7 +141,7 @@
         </form>
 
         <div class="success" id="success" hidden>
-          <p class="kicker">Guild · Received</p>
+          <p class="page__kicker">Guild · Received</p>
           <h2 class="success-title">Thank you — we've got it.</h2>
           <p class="success-body">
             A city admin will review your application and reply by email.
@@ -152,22 +149,23 @@
             <strong>noreply@guild.guide</strong> — and check your spam
             folder if it doesn't arrive.
           </p>
-          <p class="actions">
-            <a class="cta" href="/">
-              <span class="cta-arrow" aria-hidden="true">←</span>
-              Back to Guild
-            </a>
+          <p>
+            <a class="btn btn--ghost" href="/">Back to Guild</a>
           </p>
         </div>
-      </section>
+      </div>
     </main>
 
-    <footer class="apply-footer">
-      <p>
-        <a class="footnote-link" href="/imprint">Imprint</a>
-        <span class="footnote-sep" aria-hidden="true">·</span>
-        <a class="footnote-link" href="/privacy">Privacy</a>
-      </p>
+    <p class="footer-mark" aria-hidden="true">GUILD</p>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p>© <span data-year></span> Guild</p>
+        <nav class="site-footer__links" aria-label="Legal">
+          <a href="/imprint">Imprint</a>
+          <a href="/privacy">Privacy</a>
+        </nav>
+      </div>
     </footer>
 
     <!-- Optional spam protection. To enable Cloudflare Turnstile:
@@ -178,6 +176,8 @@
     <script>
       window.GUILD_TURNSTILE_SITE_KEY = '';
     </script>
+    <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script defer src="/motion.js"></script>
     <script src="/apply.js" defer></script>
   </body>
 </html>
