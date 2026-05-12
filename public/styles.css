@@ -353,6 +353,25 @@ svg {
   max-width: 60ch;
 }
 
+.section__figure {
+  /* TODO: tune this treatment — see chat. */
+  margin: clamp(var(--spacing-40), 5vw, var(--spacing-68)) 0 0;
+  max-width: 720px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.section__figure--square {
+  max-width: 520px;
+}
+
+.section__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: saturate(0.95) contrast(1.05);
+}
+
 .stanzas {
   margin-top: clamp(var(--spacing-48), 6vw, var(--spacing-68));
   display: grid;
