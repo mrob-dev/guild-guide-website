@@ -91,7 +91,59 @@
   }
 
   /* ---------------------------------------------------------------
-     4. Tiny: stamp the current year wherever data-year is present.
+     4. Parallax — [data-parallax] elements drift vertically as the
+        viewport scrolls past them. The attribute value is the speed
+        multiplier (0 = no motion, 0.5 = half scroll speed in the
+        opposite direction, etc). Motion is gated on reduce-motion
+        and uses rAF + IntersectionObserver so off-screen elements
+        don't waste cycles.
+     --------------------------------------------------------------- */
+  const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
+  if (!reduceMotion && parallaxEls.length && 'IntersectionObserver' in window) {
+    const visible = new Set();
+    const visibilityIo = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) visible.add(entry.target);
+          else visible.delete(entry.target);
+        });
+      },
+      { rootMargin: '120px 0px' }
+    );
+    parallaxEls.forEach((el) => visibilityIo.observe(el));
+
+    let frame = 0;
+    const applyParallax = () => {
+      frame = 0;
+      const viewportH = window.innerHeight;
+      visible.forEach((el) => {
+        const speed = parseFloat(el.dataset.parallax) || 0.2;
+        const rect = el.getBoundingClientRect();
+        // Distance of element's centre from viewport's centre, as a
+        // fraction of viewport height. 0 = perfectly centred, ±1 = at
+        // the edge. We move the element opposite to that distance so
+        // it appears to "stick" slightly as the page scrolls.
+        const elCentre = rect.top + rect.height / 2;
+        const vpCentre = viewportH / 2;
+        const offset = (vpCentre - elCentre) * speed;
+        // Target the first child element if there is one (for the
+        // band-divider pattern where the inner strip is what moves);
+        // otherwise transform the element directly.
+        const target = el.firstElementChild || el;
+        target.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)';
+      });
+    };
+    const schedule = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(applyParallax);
+    };
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    schedule();
+  }
+
+  /* ---------------------------------------------------------------
+     5. Tiny: stamp the current year wherever data-year is present.
         Replaces the per-page inline scripts.
      --------------------------------------------------------------- */
   const year = new Date().getFullYear();

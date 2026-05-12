@@ -1104,6 +1104,248 @@ body::after {
   }
 }
 
+/* ─── Hero background photograph + cloudy noise overlay ─────────────────── */
+/* Painted gold-streak photograph sits behind the orbs. Its dimming is
+   intentional — orbs + noise + veil combine to keep it atmospheric
+   rather than literal. */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hero__bg img {
+  position: absolute;
+  top: -15%;
+  left: 0;
+  right: 0;
+  bottom: -15%;
+  width: 100%;
+  height: 130%;
+  object-fit: cover;
+  object-position: center 60%;
+  opacity: 0.55;
+  filter: saturate(0.85) contrast(1.05);
+  will-change: transform;
+  /* The ±15% inset gives the parallax JS room to drift without ever
+     revealing a black gap above or below. transform is left untouched
+     here so the JS (motion.js parallax handler) can own it. */
+}
+
+/* Cloudy / pixellated noise overlay — monopo-style atmospheric texture.
+   Generated inline as an SVG feTurbulence so we ship zero extra bytes
+   and the texture stays crisp at any DPR. */
+.hero__noise {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 1   0 0 0 0 1   0 0 0 0.35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 220px 220px;
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+}
+
+/* Reduce noise visibility for low-DPR or older browsers — overlay
+   mix-blend can shimmer aggressively. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__noise { opacity: 0.07; }
+}
+
+/* Hero actions are now placed AFTER the meta line per layout brief —
+   add a margin that visually anchors them as a separate call-to-action
+   block rather than appearing crammed against the meta caption. */
+.hero__inner .hero__actions {
+  margin-top: var(--spacing-32, 32px);
+}
+
+/* Scroll-cue arrow: the existing label + vertical line gets a small
+   chevron icon below so the affordance reads at a glance — monopo-
+   style downward cue. The <a> wrapping makes it clickable for users
+   on touch devices. */
+.scroll-cue {
+  text-decoration: none;
+  color: inherit;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.scroll-cue__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.75);
+  animation: scroll-cue-bob 2.2s ease-in-out infinite;
+}
+
+@keyframes scroll-cue-bob {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50%      { transform: translateY(4px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue__arrow { animation: none; }
+}
+
+/* ─── Band dividers — partial-image strips with parallax ────────────────── */
+/* The full image is much taller than the band; we crop a horizontal
+   slice that contains the gold-streak band, then scroll the inner
+   image vertically as the user scrolls past. */
+.band-divider {
+  position: relative;
+  overflow: hidden;
+  height: 180px;
+  background: var(--color-midnight-canvas);
+  /* Soft fade at top + bottom so it transitions cleanly into adjacent
+     black sections without a hard edge. */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 18%,
+    black 82%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 18%,
+    black 82%,
+    transparent 100%
+  );
+}
+
+.band-divider__strip {
+  position: absolute;
+  inset: -40% 0 -40% 0;
+  will-change: transform;
+}
+
+.band-divider__strip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 50%;
+  opacity: 0.72;
+  filter: saturate(0.95) contrast(1.05);
+}
+
+.band-divider--alt .band-divider__strip img {
+  /* Pull a different vertical slice for visual variety — slightly
+     higher in the source frame so the gold-streak reads differently. */
+  object-position: center 30%;
+  opacity: 0.66;
+}
+
+@media (max-width: 640px) {
+  .band-divider { height: 140px; }
+}
+
+/* ─── Section-level gold accents (used on "A working community") ────────── */
+.eyebrow-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: var(--spacing-12, 12px);
+}
+
+.eyebrow-rule {
+  width: 36px;
+  height: 1px;
+  background: var(--color-gold, #d9b66f);
+  opacity: 0.85;
+}
+
+/* When a stanza-divider sits between two stanzas it draws a thin gold
+   horizontal rule. Visual rhythm: read → pause → read. */
+.stanza-divider {
+  display: block;
+  width: 64px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(217, 182, 111, 0.55) 50%,
+    transparent 100%
+  );
+  margin: var(--spacing-28, 28px) 0;
+}
+
+/* Gold corner accent on the .section--gold variant — small bracket
+   shape top-left of the wrap. Subtle: ~28px lines, gold at 60% alpha. */
+.section--gold {
+  position: relative;
+}
+
+.section--gold .wrap {
+  position: relative;
+}
+
+.section--gold .wrap::before,
+.section--gold .wrap::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: rgba(217, 182, 111, 0.55);
+  border-style: solid;
+  border-width: 0;
+  pointer-events: none;
+}
+
+.section--gold .wrap::before {
+  top: 0;
+  left: clamp(8px, 4vw, 24px);
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+
+.section--gold .wrap::after {
+  bottom: 0;
+  right: clamp(8px, 4vw, 24px);
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+/* monopo-style downward arrow at the foot of a section. */
+.section-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(217, 182, 111, 0.7);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.section-cue:hover {
+  color: rgba(217, 182, 111, 1);
+}
+
+.section-cue__line {
+  width: 1px;
+  height: 28px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.section-cue__arrow {
+  display: inline-flex;
+  animation: scroll-cue-bob 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-cue__arrow { animation: none; }
+}
+
 /* ─── Apply page tabs (Guide / Operator) ────────────────────────────────── */
 .apply-tabs {
   display: inline-flex;
