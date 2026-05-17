@@ -489,6 +489,19 @@ svg {
   color: var(--color-frost-white);
 }
 
+/* Buried admin link — quieter than its siblings on purpose. Findable
+   for those who know where to look, ignorable for the public reader.
+   Click-through navigates to /admin which is gated by Supabase auth. */
+.site-footer__links a.footer-admin {
+  opacity: 0.35;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+.site-footer__links a.footer-admin:hover,
+.site-footer__links a.footer-admin:focus-visible {
+  opacity: 0.75;
+}
+
 /* -------------------------------------------------------------------------
    Interior pages (apply, imprint, privacy)
    ------------------------------------------------------------------------- */
@@ -1437,6 +1450,45 @@ body::after {
   border-bottom-color: rgba(217, 182, 111, 0.4);
 }
 
+/* ─── Consent block on /apply ─────────────────────────────────────────── */
+.apply-consent {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  margin-top: 16px;
+}
+.apply-consent .legend {
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 0 8px;
+  font-weight: 600;
+}
+.apply-consent__row {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  align-items: start;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--color-whisper-gray, rgba(255, 255, 255, 0.86));
+  cursor: pointer;
+}
+.apply-consent__row input[type="checkbox"] {
+  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-gold, #d9b66f);
+  cursor: pointer;
+}
+.apply-consent__row .link {
+  color: var(--color-gold, #d9b66f);
+}
+
 /* ─── Hero store badges ──────────────────────────────────────────────────── */
 .hero__stores {
   margin-top: var(--spacing-32, 32px);
@@ -1681,6 +1733,44 @@ body::after {
   color: #fff;
 }
 
+.tier-card__alt {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  color: var(--color-fog-dim, rgba(255, 255, 255, 0.55));
+  margin-top: 2px;
+}
+
+.tier-promo {
+  margin: var(--spacing-40, 40px) 0 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 18px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--color-whisper-gray, rgba(255, 255, 255, 0.85));
+  background: linear-gradient(
+    135deg,
+    rgba(217, 182, 111, 0.10) 0%,
+    rgba(217, 182, 111, 0.03) 100%
+  );
+  border: 1px solid rgba(217, 182, 111, 0.28);
+  border-radius: 999px;
+}
+.tier-promo__pill {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(217, 182, 111, 0.22);
+  color: #e0c485;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
 .tier-card__list {
   list-style: none;
   margin: 0;
@@ -1793,6 +1883,160 @@ body::after {
   margin-top: 32px;
   font-size: 13px;
   color: var(--color-fog-dim, rgba(255, 255, 255, 0.55));
+}
+
+/* First-month-free promo banner — sits under the page lede, picks up
+   the restrained-gold accent without dominating the page. */
+.upgrade__promo {
+  margin: 24px 0 0;
+  padding: 16px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-whisper-gray, rgba(255, 255, 255, 0.85));
+  background: linear-gradient(
+    135deg,
+    rgba(217, 182, 111, 0.10) 0%,
+    rgba(217, 182, 111, 0.03) 100%
+  );
+  border: 1px solid rgba(217, 182, 111, 0.28);
+  border-radius: 14px;
+}
+.upgrade__promo-pill {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(217, 182, 111, 0.22);
+  color: #e0c485;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+/* ─── /upgrade picker (tier + cadence radios) ─────────────────────────────── */
+.upgrade--picker {
+  grid-template-columns: 1fr;
+}
+
+.upgrade-tiers {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 8px 0 4px;
+}
+@media (min-width: 680px) {
+  .upgrade-tiers { grid-template-columns: 1fr 1fr; }
+}
+
+.upgrade-tier {
+  display: block;
+  cursor: pointer;
+  position: relative;
+}
+
+.upgrade-tier input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+}
+
+.upgrade-tier__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.08));
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.015);
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.upgrade-tier input[type="radio"]:checked ~ .upgrade-tier__inner {
+  border-color: var(--color-gold, #d9b66f);
+  background: rgba(217, 182, 111, 0.06);
+}
+
+.upgrade-tier__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.upgrade-tier__sub {
+  font-size: 12.5px;
+  color: var(--color-fog-dim, rgba(255, 255, 255, 0.65));
+  line-height: 1.45;
+}
+
+.upgrade-tier__price,
+.upgrade-tier__price-alt {
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-gold, #d9b66f);
+}
+
+.upgrade-cadence {
+  display: flex;
+  gap: 10px;
+  margin: 4px 0;
+}
+
+.upgrade-cadence__opt {
+  flex: 1;
+  cursor: pointer;
+  position: relative;
+}
+
+.upgrade-cadence__opt input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+}
+
+.upgrade-cadence__opt > span {
+  display: block;
+  padding: 12px 14px;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-fog-dim, rgba(255, 255, 255, 0.7));
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.08));
+  border-radius: 12px;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+
+.upgrade-cadence__opt > span em {
+  display: block;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-gold, #d9b66f);
+  margin-top: 2px;
+}
+
+.upgrade-cadence__opt input[type="radio"]:checked ~ span {
+  color: #fff;
+  border-color: var(--color-gold, #d9b66f);
+}
+
+.upgrade-consent {
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: var(--color-fog-dim, rgba(255, 255, 255, 0.7));
+  line-height: 1.5;
+}
+
+.upgrade-consent input[type="checkbox"] {
+  margin-top: 3px;
+  flex: 0 0 auto;
 }
 
 .link {

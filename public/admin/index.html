@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" href="/guild-logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Fraunces:ital,wght@1,400;1,500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles.css" />
     <link rel="stylesheet" href="/admin/admin.css" />
   </head>
@@ -29,6 +29,7 @@
 
     <main class="page__main">
       <div class="wrap admin-wrap">
+
         <!-- Loading state during auth resolution -->
         <section id="loading-view" class="admin-loading" aria-live="polite">
           <p>Loading…</p>
@@ -81,21 +82,94 @@
         <section id="dashboard-view" class="admin-dashboard" hidden>
           <header class="admin-dashboard__head">
             <p class="page__kicker">Guild · Admin</p>
-            <h1 class="page__title">Applications.</h1>
-            <p class="page__lede" id="admin-greeting">Loading queue…</p>
+            <h1 class="page__title">Dashboard.</h1>
+            <p class="page__lede" id="admin-greeting">Loading…</p>
           </header>
 
-          <div class="admin-toolbar" role="tablist" aria-label="Application status">
-            <button class="admin-tab is-active" data-status="pending" role="tab" aria-selected="true">Pending</button>
-            <button class="admin-tab" data-status="approved" role="tab" aria-selected="false">Approved</button>
-            <button class="admin-tab" data-status="rejected" role="tab" aria-selected="false">Rejected</button>
-          </div>
+          <!-- View toggle: Overview / Applications / Users / Activity -->
+          <nav class="admin-nav" aria-label="Admin sections">
+            <button class="admin-nav__btn is-active" data-view="overview" type="button">Overview</button>
+            <button class="admin-nav__btn" data-view="applications" type="button">Applications</button>
+            <button class="admin-nav__btn" data-view="users" type="button">Users</button>
+            <button class="admin-nav__btn" data-view="activity" type="button">Activity</button>
+          </nav>
 
-          <p id="queue-status" class="admin-queue-status" aria-live="polite"></p>
+          <!-- ─── Overview ─────────────────────────────────────────── -->
+          <section id="view-overview" class="admin-view" aria-labelledby="overview-h">
+            <h2 id="overview-h" class="admin-view__h">Overview</h2>
+            <p id="overview-status" class="admin-queue-status" aria-live="polite">Loading metrics…</p>
+            <div id="metrics-grid" class="metrics-grid"></div>
+            <p class="admin-view__hint" id="overview-generated"></p>
+          </section>
 
-          <ul id="application-list" class="admin-list" aria-busy="false">
-            <!-- Populated by admin.js -->
-          </ul>
+          <!-- ─── Applications ─────────────────────────────────────── -->
+          <section id="view-applications" class="admin-view" aria-labelledby="apps-h" hidden>
+            <h2 id="apps-h" class="admin-view__h">Applications</h2>
+            <div class="admin-toolbar" role="tablist" aria-label="Application status">
+              <button class="admin-tab is-active" data-status="pending" role="tab" aria-selected="true">Pending</button>
+              <button class="admin-tab" data-status="approved" role="tab" aria-selected="false">Approved</button>
+              <button class="admin-tab" data-status="rejected" role="tab" aria-selected="false">Rejected</button>
+            </div>
+            <p id="queue-status" class="admin-queue-status" aria-live="polite"></p>
+            <ul id="application-list" class="admin-list" aria-busy="false"></ul>
+          </section>
+
+          <!-- ─── Users ────────────────────────────────────────────── -->
+          <section id="view-users" class="admin-view" aria-labelledby="users-h" hidden>
+            <h2 id="users-h" class="admin-view__h">Users</h2>
+            <form id="users-filter" class="admin-filter" autocomplete="off">
+              <label class="field admin-filter__search">
+                <span class="label">Search</span>
+                <input type="search" name="q" placeholder="Name, email, or city" maxlength="120" />
+              </label>
+              <label class="field admin-filter__select">
+                <span class="label">Tier</span>
+                <select name="role">
+                  <option value="">Any</option>
+                  <option value="guide">Guide</option>
+                  <option value="operator">Operator</option>
+                  <option value="admin">Admin</option>
+                  <option value="moderator">Moderator</option>
+                </select>
+              </label>
+              <label class="field admin-filter__select">
+                <span class="label">Status</span>
+                <select name="status">
+                  <option value="">Any</option>
+                  <option value="approved">Approved</option>
+                  <option value="pending">Pending</option>
+                  <option value="suspended">Suspended</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </label>
+            </form>
+            <p id="users-status" class="admin-queue-status" aria-live="polite">Loading users…</p>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="users-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Tier</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Last online</th>
+                    <th scope="col">Last message</th>
+                    <th scope="col" class="num">Msgs</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- ─── Activity ─────────────────────────────────────────── -->
+          <section id="view-activity" class="admin-view" aria-labelledby="activity-h" hidden>
+            <h2 id="activity-h" class="admin-view__h">Recent activity</h2>
+            <p id="activity-status" class="admin-queue-status" aria-live="polite">Loading…</p>
+            <ol id="activity-feed" class="activity-feed" aria-busy="false"></ol>
+          </section>
+
         </section>
       </div>
     </main>
@@ -137,7 +211,7 @@
     -->
     <script>
       window.GUILD_SUPABASE_URL = 'https://nigonhrurkscfjzgbmrr.supabase.co';
-      window.GUILD_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pZ29uaHJ1cmtzY2ZqemdibXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzY1MjEsImV4cCI6MjA5MzQxMjUyMX0.0VahYLI0Yn-GRzEUR6frEMPe4o7jJjCpUIhD267L96A'; // ← paste anon key here
+      window.GUILD_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pZ29uaHJ1cmtzY2ZqemdibXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzY1MjEsImV4cCI6MjA5MzQxMjUyMX0.0VahYLI0Yn-GRzEUR6frEMPe4o7jJjCpUIhD267L96A';
     </script>
     <script src="https://esm.sh/@supabase/supabase-js@2.39.0?bundle" defer></script>
     <script src="/admin/admin.js" defer></script>

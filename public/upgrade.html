@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Upgrade to Operator — Guild</title>
-    <meta name="description" content="Upgrade to an Operator account on Guild. €10/week — unlimited job posts, priority placement, and full guide profile access." />
+    <title>Subscribe — Guild</title>
+    <meta name="description" content="Subscribe to Guild as a guide (€1/week or €40/year) or as an operator (€5/week or €200/year). Cancel any time." />
     <meta name="theme-color" content="#000000" />
     <link rel="icon" type="image/png" href="/guild-logo.png" />
     <link rel="apple-touch-icon" href="/guild-logo.png" />
@@ -29,28 +29,23 @@
     <main class="page__main">
       <div class="wrap">
         <header class="page__header">
-          <p class="page__kicker" data-reveal>Guild · Operator tier</p>
-          <h1 class="page__title" data-reveal style="--reveal-delay: 80ms">Upgrade to Operator.</h1>
+          <p class="page__kicker" data-reveal>Guild · Subscribe</p>
+          <h1 class="page__title" data-reveal style="--reveal-delay: 80ms">Pick how you use Guild.</h1>
           <p class="page__lede" data-reveal style="--reveal-delay: 160ms">
-            For tour operators and agencies who post regularly.
-            <strong>€10 per week</strong>, cancel any time.
+            Two tiers. Two cadences. Cancel any time. Subscriptions are
+            handled by Stripe — Guild never sees your card details.
+          </p>
+          <p class="upgrade__promo" data-reveal style="--reveal-delay: 200ms">
+            <span class="upgrade__promo-pill">First month free</span>
+            Soft-launch offer — every new Guide and Operator subscription
+            starts with 30 days at no charge. Cancel before the trial
+            ends and you won't be billed.
           </p>
         </header>
 
-        <section class="upgrade" aria-labelledby="upgrade-form-heading" data-reveal style="--reveal-delay: 240ms">
-          <div class="upgrade__compare">
-            <h2 id="upgrade-compare-heading" class="upgrade__subtitle">What changes</h2>
-            <ul class="upgrade__list">
-              <li><strong>Unlimited job posts</strong> — no weekly cap.</li>
-              <li><strong>Priority placement</strong> — every Operator job is flagged priority. All members get a push notification when you post.</li>
-              <li><strong>Full guide profiles</strong> — see response time, current companies, tour specialties, and bios when you view a guide.</li>
-              <li><strong>Operator badge</strong> — every member sees the Operator pill on your profile.</li>
-            </ul>
-            <p class="upgrade__price">€10 / week · billed via Stripe</p>
-          </div>
-
+        <section class="upgrade upgrade--picker" aria-labelledby="upgrade-form-heading" data-reveal style="--reveal-delay: 240ms">
           <form id="upgrade-form" class="upgrade-form" novalidate autocomplete="on">
-            <h2 id="upgrade-form-heading" class="upgrade__subtitle">Start checkout</h2>
+            <h2 id="upgrade-form-heading" class="upgrade__subtitle">Account &amp; plan</h2>
 
             <label class="field">
               <span class="label">Account email <span class="req">*</span></span>
@@ -61,10 +56,58 @@
                 autocomplete="email"
                 maxlength="160"
                 inputmode="email"
-                placeholder="you@operator.com"
+                placeholder="you@example.com"
               />
-              <span class="hint">The email of your existing Guild account. Your tier flips to Operator once payment completes.</span>
+              <span class="hint">Use the same email as your existing Guild account so the subscription matches up.</span>
               <span class="error" data-error-for="email"></span>
+            </label>
+
+            <fieldset class="fieldset">
+              <legend class="legend">Tier</legend>
+              <div class="upgrade-tiers" role="radiogroup" aria-label="Subscription tier">
+                <label class="upgrade-tier">
+                  <input type="radio" name="tier" value="guide" checked />
+                  <span class="upgrade-tier__inner">
+                    <span class="upgrade-tier__title">Guide</span>
+                    <span class="upgrade-tier__sub">Working tour guides. Profile, forum, messages, jobs.</span>
+                    <span class="upgrade-tier__price" data-price-weekly-guide>€1 / week</span>
+                    <span class="upgrade-tier__price-alt" data-price-annual-guide hidden>€40 / year</span>
+                  </span>
+                </label>
+                <label class="upgrade-tier">
+                  <input type="radio" name="tier" value="operator" />
+                  <span class="upgrade-tier__inner">
+                    <span class="upgrade-tier__title">Operator</span>
+                    <span class="upgrade-tier__sub">Tour operators and agencies. Unlimited posts, priority placement.</span>
+                    <span class="upgrade-tier__price" data-price-weekly-op>€5 / week</span>
+                    <span class="upgrade-tier__price-alt" data-price-annual-op hidden>€200 / year</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="fieldset">
+              <legend class="legend">Cadence</legend>
+              <div class="upgrade-cadence" role="radiogroup" aria-label="Billing cadence">
+                <label class="upgrade-cadence__opt">
+                  <input type="radio" name="cadence" value="weekly" checked />
+                  <span>Weekly</span>
+                </label>
+                <label class="upgrade-cadence__opt">
+                  <input type="radio" name="cadence" value="annual" />
+                  <span>Annual <em>save ~23%</em></span>
+                </label>
+              </div>
+            </fieldset>
+
+            <label class="field upgrade-consent">
+              <input type="checkbox" name="consent" required />
+              <span>
+                I accept the
+                <a class="link" href="/guide-agreement" target="_blank" rel="noopener" data-agreement-guide>Guide Membership Agreement</a><a class="link" href="/operator-agreement" target="_blank" rel="noopener" data-agreement-operator hidden>Operator Membership Agreement</a>,
+                the <a class="link" href="/terms" target="_blank" rel="noopener">Terms of Service</a>,
+                and the <a class="link" href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.
+              </span>
             </label>
 
             <p class="form-error" id="form-error" role="alert" aria-live="polite"></p>
@@ -75,16 +118,20 @@
                 <span class="submit-spinner" aria-hidden="true"></span>
               </button>
               <p class="legalese">
-                Payment is processed by Stripe. Guild never sees your card details.
-                Subscription auto-renews weekly; cancel from your billing portal.
+                Payment is processed by Stripe. Guild never sees your card
+                details. The first 30 days are free during the soft-launch —
+                you can cancel any time before the trial ends and you won't
+                be charged. Subscriptions auto-renew at the end of each
+                period after that; cancel any time from the Stripe customer
+                portal or the app.
               </p>
             </div>
           </form>
         </section>
 
         <p class="upgrade__back">
-          Just curious? <a class="link" href="/">Back to Guild</a> ·
           Not a member yet? <a class="link" href="/apply">Apply first</a>.
+          Already a member? <a class="link" href="/app">Open the app</a>.
         </p>
       </div>
     </main>
@@ -95,6 +142,9 @@
         <nav class="site-footer__links" aria-label="Legal">
           <a href="/imprint">Imprint</a>
           <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/legal">All legal</a>
+          <a class="footer-admin" href="/admin" rel="nofollow" aria-label="Admin sign-in">Admin</a>
         </nav>
       </div>
     </footer>

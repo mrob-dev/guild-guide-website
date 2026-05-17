@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Privacy policy — Guild</title>
-    <meta name="description" content="What personal data Guild collects, why, and your rights under GDPR." />
+    <title>Privacy Policy — Guild</title>
+    <meta name="description" content="What personal data Guild collects, why, how long it's kept, and your rights under GDPR." />
     <meta name="theme-color" content="#000000" />
     <link rel="icon" type="image/png" href="/guild-logo.png" />
     <link rel="apple-touch-icon" href="/guild-logo.png" />
@@ -29,17 +29,20 @@
       <div class="wrap">
         <header class="page__header">
           <p class="page__kicker" data-reveal>Guild · Privacy</p>
-          <h1 class="page__title" data-reveal style="--reveal-delay: 80ms">Privacy policy.</h1>
+          <h1 class="page__title" data-reveal style="--reveal-delay: 80ms">Privacy Policy.</h1>
           <p class="page__lede" data-reveal style="--reveal-delay: 160ms">
-            What personal data Guild collects through this website, why,
-            and your rights under the EU General Data Protection Regulation (GDPR).
+            What personal data Guild collects, why, how long we keep it,
+            and your rights under the EU General Data Protection
+            Regulation (GDPR). This policy covers both the marketing
+            website at guild.guide and the Guild app.
           </p>
         </header>
 
         <article class="prose" data-reveal style="--reveal-delay: 240ms">
           <h2>Controller</h2>
           <p>
-            The controller responsible for processing personal data on this site is:
+            The controller responsible for processing personal data
+            described here is:
           </p>
           <p>
             Matt Robinson<br>
@@ -48,17 +51,21 @@
             10439 Berlin, Germany<br>
             Email: <a href="mailto:hello@guild.guide">hello@guild.guide</a>
           </p>
+          <p>
+            For DSA matters specifically, see our
+            <a href="/dsa-notice">Notice &amp; Action procedure</a>.
+          </p>
 
           <h2>What data we collect, and why</h2>
 
           <h3>1. Application form (<a href="/apply">guild.guide/apply</a>)</h3>
           <p>When you submit an application to join Guild, we collect:</p>
           <ul>
-            <li>Email address (required, used to contact you)</li>
-            <li>First and last name</li>
-            <li>Base city</li>
+            <li>Email address (required, used to contact you).</li>
+            <li>First and last name, base city.</li>
             <li>Years of experience guiding, website, prior employers,
-                tours offered, specialties, and any additional information you choose to share</li>
+                tours offered, specialties, and any additional
+                information you choose to share.</li>
           </ul>
           <p>
             <strong>Legal basis:</strong> Art. 6(1)(b) GDPR — processing
@@ -67,80 +74,200 @@
           </p>
           <p>
             <strong>Recipients:</strong> the city admin responsible for
-            your stated base city, who reviews applications. We do not
-            share your application with anyone else.
+            your stated base city, who reviews applications.
           </p>
           <p>
-            <strong>Retention:</strong> approved applications are retained
-            for the lifetime of your Guild account. Rejected applications
-            are deleted within 90 days.
+            <strong>Retention:</strong> approved applications merge into
+            your profile and are kept for the lifetime of your account.
+            Rejected applications are deleted within 90 days. See our
+            <a href="/data-retention">Data Retention Policy</a> for the
+            full schedule.
           </p>
 
-          <h3>2. Server access logs</h3>
+          <h3>2. Profile and account (in-app)</h3>
+          <p>Once you are approved, we hold the following profile data:</p>
+          <ul>
+            <li>Display name, base city, profile photo (optional), bio, languages, specialties, years of experience, current and past employers (optional), website, availability note.</li>
+            <li>Member tier (Guide, Operator, admin role where applicable) and subscription status.</li>
+            <li>The list of other members you have blocked.</li>
+            <li>Your notification preferences and selected theme.</li>
+          </ul>
           <p>
-            Our hosting provider records standard HTTP access logs (IP
-            address, timestamp, request URL, user-agent) for security and
-            abuse-prevention purposes. These logs are kept for up to 30
-            days and are not combined with any other personal data.
+            <strong>Legal basis:</strong> Art. 6(1)(b) GDPR (performance of the membership contract).
           </p>
+
+          <h3>3. Direct messages</h3>
+          <p>
+            Messages exchanged with other members are stored on our
+            servers in encrypted form. The plaintext key never leaves
+            the participants' devices, so Guild staff cannot read your
+            messages. We store message metadata (sender, recipient,
+            timestamp, read state) needed to deliver and order
+            messages.
+          </p>
+          <p>
+            <strong>Retention:</strong> 24 months. See
+            <a href="/data-retention">Data Retention Policy §4</a>.
+          </p>
+
+          <h3>4. Forum posts, replies, and job posts</h3>
+          <p>
+            Posts, replies, and job listings you create are visible to
+            other members in your city by design. We store the content,
+            timestamps, and your authorship for as long as the content
+            is online.
+          </p>
+          <p>
+            <strong>Legal basis:</strong> Art. 6(1)(b) and 6(1)(f) GDPR. When you delete your account, forum-post authorship is replaced with an anonymous tombstone but the content may remain visible for community continuity.
+          </p>
+
+          <h3>5. Authentication, security, and device data</h3>
+          <ul>
+            <li>Sign-in events, including approximate timestamp and IP address.</li>
+            <li>Push-notification tokens issued by Apple Push or Firebase Cloud Messaging.</li>
+            <li>Standard HTTP access logs on the website and API (IP, user-agent, request URL).</li>
+          </ul>
           <p>
             <strong>Legal basis:</strong> Art. 6(1)(f) GDPR — legitimate
-            interest in operating the service securely.
+            interest in operating the service securely and preventing
+            abuse.
+          </p>
+          <p>
+            <strong>Retention:</strong> 90 days (server logs, sign-in events). Push tokens persist until you sign out, uninstall, or the OS rotates them.
           </p>
 
-          <h3>3. No analytics or advertising trackers</h3>
+          <h3>6. Subscriptions, payments, and invoices</h3>
           <p>
-            This website does not use Google Analytics, Facebook Pixel, or
-            any other third-party analytics or advertising tools. There
-            are no marketing cookies and no profile-building.
+            Subscription payments are processed by
+            <strong>Stripe Payments Europe Ltd.</strong> (Dublin,
+            Ireland) on our behalf. We receive from Stripe a
+            confirmation of payment status, the email used at checkout,
+            and the customer/subscription IDs needed to manage the
+            lifecycle. Full card data is held by Stripe; we do not
+            store it.
+          </p>
+          <p>
+            In-app one-off purchases (e.g. the "Bump" upgrade) are
+            processed by Apple or Google. We receive a receipt token
+            that we verify with Apple/Google to determine that a
+            purchase was legitimate.
+          </p>
+          <p>
+            <strong>Legal basis:</strong> Art. 6(1)(b) (contract), and Art. 6(1)(c) (legal obligation) for invoices retained under German tax law.
+          </p>
+          <p>
+            <strong>Retention:</strong> invoice and billing data is
+            retained for ten years from the end of the calendar year of
+            issue, under §&nbsp;147 of the German Fiscal Code
+            (Abgabenordnung). See
+            <a href="/data-retention">Data Retention Policy §9</a>.
           </p>
 
-          <h2>How we store and protect your data</h2>
+          <h3>7. Moderation and abuse reports</h3>
           <p>
-            Application data is stored in our database hosted by Supabase
-            GmbH (an EU-based service provider). Email delivery is
-            handled by Resend. Both processors are bound by data
-            processing agreements that comply with GDPR Art.&nbsp;28.
-            Data is encrypted in transit (HTTPS) and at rest.
+            When a member reports content or another member, we store
+            the report, any evidence attached, the moderator decision,
+            and the action taken. Where the report concerns a direct
+            message, only the snippet you choose to share is stored
+            (Guild cannot decrypt your conversations).
+          </p>
+          <p>
+            <strong>Legal basis:</strong> Art. 6(1)(c) GDPR (DSA notice-and-action obligations) and 6(1)(f) GDPR (community safety).
+          </p>
+          <p>
+            <strong>Retention:</strong> 24 months, longer where required by an active legal hold or where the report led to a permanent ban for serious breach.
+          </p>
+
+          <h3>8. Support correspondence</h3>
+          <p>
+            Emails you send us at hello@guild.guide, support@guild.guide,
+            reports@guild.guide, appeals@guild.guide, copyright@guild.guide,
+            or legal@guild.guide are retained for 36 months from the last
+            reply, then deleted.
+          </p>
+
+          <h3>9. No marketing analytics</h3>
+          <p>
+            We do not run Google Analytics, Meta Pixel, or any other
+            third-party analytics on the marketing site. The Guild app
+            uses no third-party trackers. We may collect anonymised
+            aggregate metrics for product improvement; see our
+            <a href="/cookies">Cookie Policy</a>.
+          </p>
+
+          <h2>Processors we use</h2>
+          <p>
+            Each of the following service providers processes some of
+            your data on our behalf, under a GDPR-compliant data
+            processing agreement (Art. 28 GDPR):
+          </p>
+          <ul>
+            <li><strong>Supabase</strong> (EU region) — database, authentication, file storage, Edge Functions.</li>
+            <li><strong>Resend</strong> — transactional email delivery.</li>
+            <li><strong>Stripe Payments Europe Ltd.</strong> — subscriptions and invoicing.</li>
+            <li><strong>Apple Inc.</strong> / <strong>Google LLC</strong> — app distribution and in-app purchases.</li>
+            <li><strong>Firebase Cloud Messaging</strong> (Google) — push notification delivery.</li>
+            <li><strong>Hostinger</strong> — domain registration and hosting of the marketing website.</li>
+          </ul>
+          <p>
+            Where a processor is established outside the EU/EEA, the
+            transfer is covered either by EU adequacy or by Standard
+            Contractual Clauses (Art. 46 GDPR). The primary data store
+            (Supabase) is in the EU.
+          </p>
+
+          <h2>Encryption and security</h2>
+          <p>
+            All traffic between your device and our servers is encrypted
+            in transit (TLS). Direct messages are end-to-end encrypted:
+            their content cannot be read by Guild staff or by Supabase.
+            Backups of operational data are encrypted at rest.
+          </p>
+          <p>
+            In the event of a personal-data breach likely to result in a
+            risk to your rights and freedoms, we will notify the Berlin
+            Commissioner for Data Protection within 72 hours of becoming
+            aware of it (Art. 33 GDPR) and notify affected members
+            without undue delay (Art. 34 GDPR).
           </p>
 
           <h2>Your rights</h2>
           <p>Under GDPR you have the right to:</p>
           <ul>
-            <li>Access the personal data we hold about you (Art.&nbsp;15)</li>
-            <li>Correct inaccurate data (Art.&nbsp;16)</li>
-            <li>Request erasure of your data (Art.&nbsp;17)</li>
-            <li>Restrict or object to processing (Art.&nbsp;18 and 21)</li>
-            <li>Data portability — receive your data in a machine-readable format (Art.&nbsp;20)</li>
-            <li>Withdraw consent at any time, where applicable</li>
-            <li>Lodge a complaint with a supervisory authority (Art.&nbsp;77).
-              For Berlin, that is the
-              <a href="https://www.datenschutz-berlin.de/" rel="noopener" target="_blank">Berlin Commissioner for Data Protection and Freedom of Information</a>.
+            <li>Access the personal data we hold about you (Art. 15) — use the in-app <em>Settings → Privacy → Export my data</em> action, which emails you a complete JSON dump.</li>
+            <li>Correct inaccurate data (Art. 16) — most fields are editable directly from the profile screen; for fields you cannot edit, email <a href="mailto:hello@guild.guide">hello@guild.guide</a>.</li>
+            <li>Request erasure of your data (Art. 17) — use the in-app <em>Settings → Privacy → Delete account</em> action, which triggers the process described in our <a href="/data-retention">Data Retention Policy</a>.</li>
+            <li>Restrict or object to processing (Art. 18 and 21).</li>
+            <li>Receive your data in a machine-readable format (Art. 20) — same as Access above.</li>
+            <li>Withdraw consent at any time, where applicable.</li>
+            <li>Lodge a complaint with the
+              <a href="https://www.datenschutz-berlin.de/" rel="noopener" target="_blank">Berlin Commissioner for Data Protection and Freedom of Information</a>
+              (Art. 77), or with the supervisory authority of your habitual residence.
             </li>
           </ul>
           <p>
-            To exercise any of these rights, email
-            <a href="mailto:hello@guild.guide">hello@guild.guide</a>.
-            We will respond within 30 days as required by GDPR.
+            We will respond to any request within 30 days, as required
+            by GDPR. There is no fee unless requests are manifestly
+            unfounded or excessive.
           </p>
 
-          <h2>Cookies</h2>
+          <h2>Children</h2>
           <p>
-            This website does not set tracking, analytics, or advertising
-            cookies. The application form uses no cookies at all. Your
-            browser may store small amounts of state related to its own
-            operation; these are not set by us.
+            Guild membership is restricted to adults (18+). We do not
+            knowingly collect personal data about children. If you
+            believe a member is a minor, please report it to
+            <a href="mailto:reports@guild.guide">reports@guild.guide</a>.
           </p>
 
-          <h2>Changes to this policy</h2>
+          <h2>Changes to this Policy</h2>
           <p>
-            We may update this policy if our data practices change. The
-            "last updated" date below reflects the most recent revision.
+            We may update this Policy if our data practices change.
             Material changes affecting your rights will be communicated
-            to applicants by email.
+            to members by email at least 30 days before they take
+            effect.
           </p>
 
-          <p class="legal-meta">Last updated: <time datetime="2026-05-09">9 May 2026</time></p>
+          <p class="legal-meta">Last updated: <time datetime="2026-05-13">13 May 2026</time></p>
         </article>
       </div>
     </main>
@@ -151,11 +278,18 @@
         <nav class="site-footer__links" aria-label="Legal">
           <a href="/imprint">Imprint</a>
           <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/legal">All legal</a>
+          <a class="footer-admin" href="/admin" rel="nofollow" aria-label="Admin sign-in">Admin</a>
         </nav>
       </div>
     </footer>
 
     <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
     <script defer src="/motion.js"></script>
+    <script>
+      var y = document.querySelector('[data-year]');
+      if (y) y.textContent = String(new Date().getFullYear());
+    </script>
   </body>
 </html>

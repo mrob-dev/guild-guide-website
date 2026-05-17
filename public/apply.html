@@ -202,11 +202,11 @@
             </fieldset>
 
             <p class="apply-pane__note">
-              Approved operators receive a temporary password by email along with
-              a link to <a class="link" href="/upgrade">guild.guide/upgrade</a>.
-              The Operator tier (unlimited posts, priority placement, full guide
-              profiles) activates once you complete the Stripe subscription —
-              €10 per week, cancel any time.
+              Approved operators receive a temporary password by email along
+              with a link to <a class="link" href="/upgrade">guild.guide/upgrade</a>.
+              The Operator tier (unlimited posts, priority placement, full
+              guide profiles) activates once you complete the Stripe
+              subscription — €5 per week or €200 per year, cancel any time.
             </p>
           </div>
           <!-- ───── /OPERATOR PANE ───── -->
@@ -218,6 +218,59 @@
               <input type="text" name="hp_company" tabindex="-1" autocomplete="off" />
             </label>
           </div>
+
+          <!-- ───── CONSENT BLOCK ─────
+               Every box is independently required. Wording is preserved
+               server-side as part of the application's consent_payload
+               (legal hardening from 0042) so it can be reproduced
+               evidentially if the form layout is ever challenged. -->
+          <fieldset class="fieldset apply-consent" aria-labelledby="consent-heading">
+            <legend id="consent-heading" class="legend">Confirm &amp; consent</legend>
+
+            <label class="apply-consent__row">
+              <input type="checkbox" name="consent_age" required />
+              <span>
+                I am at least <strong>18 years old</strong>.
+              </span>
+            </label>
+
+            <label class="apply-consent__row">
+              <input type="checkbox" name="consent_identity" required />
+              <span>
+                I declare that I am the named person above and, where
+                applying as an operator, an authorised representative of
+                the named operator.
+              </span>
+            </label>
+
+            <label class="apply-consent__row apply-consent__row--operator-only" data-operator-only hidden>
+              <input type="checkbox" name="consent_authority" />
+              <span>
+                I have authority to enter into a Membership Agreement on
+                behalf of the operator named above.
+              </span>
+            </label>
+
+            <label class="apply-consent__row">
+              <input type="checkbox" name="consent_data" required />
+              <span>
+                I consent to Guild processing the information in this
+                application for the purpose of reviewing my membership,
+                as described in the <a class="link" href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.
+              </span>
+            </label>
+
+            <label class="apply-consent__row">
+              <input type="checkbox" name="consent_terms" required />
+              <span>
+                I have read and accept the <a class="link" href="/terms" target="_blank" rel="noopener">Terms of Service</a>,
+                the <a class="link" href="/acceptable-use" target="_blank" rel="noopener">Acceptable Use Policy</a>,
+                and the relevant Membership Agreement
+                (<a class="link" href="/guide-agreement" target="_blank" rel="noopener" data-agreement-guide>Guide</a><a class="link" href="/operator-agreement" target="_blank" rel="noopener" data-agreement-operator hidden>Operator</a>).
+              </span>
+            </label>
+          </fieldset>
+          <!-- ───── /CONSENT BLOCK ───── -->
 
           <!-- Cloudflare Turnstile mount point. Only rendered when
                GUILD_TURNSTILE_SITE_KEY is set in the inline config below. -->
@@ -231,8 +284,12 @@
               <span class="submit-spinner" aria-hidden="true"></span>
             </button>
             <p class="legalese">
-              By submitting, you agree to be contacted at the email above
-              about your application. We don't share applicant details.
+              By submitting, you confirm the declarations above and agree
+              to be contacted at the email you provided about your
+              application. Applications are retained for 90 days from a
+              rejection decision (then deleted) or for the lifetime of
+              your account upon approval, per the
+              <a class="link" href="/data-retention" target="_blank" rel="noopener">Data Retention policy</a>.
             </p>
           </div>
         </form>
@@ -259,6 +316,9 @@
         <nav class="site-footer__links" aria-label="Legal">
           <a href="/imprint">Imprint</a>
           <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/legal">All legal</a>
+          <a class="footer-admin" href="/admin" rel="nofollow" aria-label="Admin sign-in">Admin</a>
         </nav>
       </div>
     </footer>

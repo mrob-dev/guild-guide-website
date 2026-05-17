@@ -4,18 +4,17 @@
 //       the user's `guide_profiles.role` and gates the dashboard view
 //       to admin / moderator only — non-staff sessions get signed out.
 //
-// Pending applications: SELECT from `guide_applications` where status =
-// 'pending'. RLS already restricts this to admins, but the role check
-// above is a defence-in-depth.
+// Views: Overview / Applications / Users / Activity.
+//   * Overview / Users / Activity load via SECURITY DEFINER RPCs added in
+//     migration 0041_admin_dashboard.sql. Each RPC re-checks is_admin().
+//   * Applications still queries guide_applications directly — RLS on
+//     that table already restricts SELECT to admins.
 //
 // Approve: POST to /functions/v1/approve-application with the user's
 // session access token. Edge Function provisions the auth user, emails
 // the temp password, and flips the application row to approved.
 //
 // Reject: POST to /functions/v1/reject-application with optional reason.
-// Edge Function flips the row to rejected and emails the applicant.
-//
-// Anon key + URL come from inline <script> in index.html.
 
 (function () {
   'use strict';
@@ -23,8 +22,6 @@
   var SUPABASE_URL = window.GUILD_SUPABASE_URL || '';
   var SUPABASE_ANON_KEY = window.GUILD_SUPABASE_ANON_KEY || '';
 
-  // Resolve the Supabase SDK. The script tag uses esm.sh's ?bundle flag
-  // which exposes a UMD-style global; we read it off the window object.
   var sb = null;
 
   // ── DOM refs ──────────────────────────────────────────────────────
@@ -39,15 +36,32 @@
   var queueStatus = document.getElementById('queue-status');
   var listEl = document.getElementById('application-list');
   var tabsEl = document.querySelectorAll('.admin-tab');
+  var navBtns = document.querySelectorAll('.admin-nav__btn');
   var rejectDialog = document.getElementById('reject-dialog');
   var rejectForm = document.getElementById('reject-form');
   var rejectCancel = document.getElementById('reject-cancel');
   var yearEl = document.querySelector('[data-year]');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+  // Overview refs
+  var overviewStatus = document.getElementById('overview-status');
+  var metricsGrid = document.getElementById('metrics-grid');
+  var overviewGenerated = document.getElementById('overview-generated');
+
+  // Users refs
+  var usersFilter = document.getElementById('users-filter');
+  var usersStatus = document.getElementById('users-status');
+  var usersTbody = document.querySelector('#users-table tbody');
+
+  // Activity refs
+  var activityStatus = document.getElementById('activity-status');
+  var activityFeed = document.getElementById('activity-feed');
+
   var currentStatus = 'pending';
+  var currentView = 'overview';
   var currentSession = null;
   var pendingRejectId = null;
+  var usersDebounceHandle = null;
 
   function show(view) {
     [loadingView, signinView, dashboardView].forEach(function (el) {
@@ -69,7 +83,6 @@
       return;
     }
     if (!window.supabase || typeof window.supabase.createClient !== 'function') {
-      // SDK still loading; retry shortly.
       setTimeout(boot, 80);
       return;
     }
@@ -108,7 +121,7 @@
         }
         greeting.textContent = 'Signed in as ' + (p.full_name || currentSession.user.email);
         show(dashboardView);
-        loadApplications();
+        switchView('overview');
       });
   }
 
@@ -126,22 +139,263 @@
     sb.auth
       .signInWithPassword({ email: email, password: password })
       .then(function (res) {
-        if (res.error) {
-          setSignInError(res.error.message || 'Sign in failed.');
-        }
-        // handleAuthChange via onAuthStateChange will take over on success.
+        if (res.error) setSignInError(res.error.message || 'Sign in failed.');
       })
-      .finally(function () {
-        signinBtn.disabled = false;
+      .finally(function () { signinBtn.disabled = false; });
+  });
+
+  signOutBtn.addEventListener('click', function () { sb.auth.signOut(); });
+
+  // ── View switcher ─────────────────────────────────────────────────
+  navBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var v = btn.dataset.view;
+      if (!v || v === currentView) return;
+      switchView(v);
+    });
+  });
+
+  function switchView(view) {
+    currentView = view;
+    navBtns.forEach(function (b) {
+      b.classList.toggle('is-active', b.dataset.view === view);
+    });
+    ['overview', 'applications', 'users', 'activity'].forEach(function (v) {
+      var el = document.getElementById('view-' + v);
+      if (el) el.hidden = v !== view;
+    });
+    if (view === 'overview') loadMetrics();
+    if (view === 'applications') loadApplications();
+    if (view === 'users') loadUsers();
+    if (view === 'activity') loadActivity();
+  }
+
+  // ── Overview: metrics ─────────────────────────────────────────────
+  function loadMetrics() {
+    overviewStatus.textContent = 'Loading metrics…';
+    metricsGrid.innerHTML = '';
+    sb.rpc('admin_metrics').then(function (res) {
+      if (res.error) {
+        overviewStatus.textContent = 'Could not load metrics — ' + res.error.message;
+        return;
+      }
+      overviewStatus.textContent = '';
+      renderMetrics(res.data || {});
+    });
+  }
+
+  function renderMetrics(m) {
+    var profiles = m.profiles || {};
+    var activity = m.activity || {};
+    var apps = m.apps || {};
+    var msgs = m.msgs || {};
+    var forum = m.forum || {};
+    var jobs = m.jobs || {};
+
+    // Group: cards in three rows — Members, Activity, Engagement.
+    var groups = [
+      {
+        title: 'Members',
+        cards: [
+          { value: profiles.total, label: 'Total profiles' },
+          { value: profiles.approved, label: 'Approved' },
+          { value: profiles.pending, label: 'Pending', tone: 'warn' },
+          { value: profiles.suspended, label: 'Suspended', tone: 'err' },
+          { value: profiles.operators, label: 'Operators', tone: 'gold' },
+          { value: profiles.paid_guides, label: 'Paid guides', tone: 'teal' },
+        ],
+      },
+      {
+        title: 'Activity (last sign-in)',
+        cards: [
+          { value: activity.dau, label: 'Active · 24h' },
+          { value: activity.wau, label: 'Active · 7d' },
+          { value: activity.mau, label: 'Active · 30d' },
+          { value: activity.never_signed_in, label: 'Never signed in', tone: 'warn' },
+        ],
+      },
+      {
+        title: 'Applications',
+        cards: [
+          { value: apps.app_pending, label: 'Pending', tone: 'warn' },
+          { value: apps.app_approved, label: 'Approved' },
+          { value: apps.app_rejected, label: 'Rejected', tone: 'err' },
+          { value: apps.app_last_week, label: 'Last 7 days' },
+          { value: apps.app_last_month, label: 'Last 30 days' },
+        ],
+      },
+      {
+        title: 'Engagement',
+        cards: [
+          { value: msgs.msg_24h, label: 'Messages · 24h' },
+          { value: msgs.msg_7d, label: 'Messages · 7d' },
+          { value: msgs.msg_authors_7d, label: 'Senders · 7d' },
+          { value: forum.posts_7d, label: 'Forum threads · 7d' },
+          { value: jobs.jobs_active, label: 'Active job posts', tone: 'teal' },
+          { value: jobs.jobs_7d, label: 'Job posts · 7d' },
+        ],
+      },
+    ];
+
+    var html = '';
+    groups.forEach(function (g) {
+      html += '<div class="metrics-group"><p class="metrics-group__title">' + g.title + '</p><div class="metrics-row">';
+      g.cards.forEach(function (c) {
+        html += '<div class="metric-card metric-card--' + (c.tone || 'neutral') + '">' +
+          '<p class="metric-card__value">' + fmtNum(c.value) + '</p>' +
+          '<p class="metric-card__label">' + escapeHtml(c.label) + '</p>' +
+        '</div>';
       });
-  });
+      html += '</div></div>';
+    });
+    metricsGrid.innerHTML = html;
 
-  // ── Sign out ─────────────────────────────────────────────────────
-  signOutBtn.addEventListener('click', function () {
-    sb.auth.signOut();
-  });
+    if (m.generated_at) {
+      overviewGenerated.textContent = 'Generated ' + new Date(m.generated_at).toLocaleString();
+    }
+  }
 
-  // ── Tabs ─────────────────────────────────────────────────────────
+  function fmtNum(n) {
+    if (n === null || n === undefined) return '—';
+    n = Number(n);
+    if (!isFinite(n)) return '—';
+    if (n >= 1000) return n.toLocaleString();
+    return String(n);
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function fmtDateTime(d) {
+    if (!d) return '—';
+    var t = new Date(d);
+    if (isNaN(t.getTime())) return '—';
+    return t.toLocaleString(undefined, {
+      year: 'numeric', month: 'short', day: 'numeric',
+      hour: '2-digit', minute: '2-digit',
+    });
+  }
+
+  function fmtRelative(d) {
+    if (!d) return '—';
+    var t = new Date(d).getTime();
+    if (isNaN(t)) return '—';
+    var diff = (Date.now() - t) / 1000;
+    if (diff < 60) return Math.floor(diff) + 's ago';
+    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+    if (diff < 7 * 86400) return Math.floor(diff / 86400) + 'd ago';
+    if (diff < 30 * 86400) return Math.floor(diff / (7 * 86400)) + 'w ago';
+    return Math.floor(diff / (30 * 86400)) + 'mo ago';
+  }
+
+  // ── Users ─────────────────────────────────────────────────────────
+  function loadUsers() {
+    usersStatus.textContent = 'Loading users…';
+    usersTbody.innerHTML = '';
+
+    var fd = new FormData(usersFilter);
+    var q = (fd.get('q') || '').toString().trim();
+    var role = (fd.get('role') || '').toString();
+    var status = (fd.get('status') || '').toString();
+
+    sb.rpc('admin_user_list', {
+      p_search: q || null,
+      p_role:   role || null,
+      p_status: status || null,
+      p_limit:  100,
+      p_offset: 0,
+    }).then(function (res) {
+      if (res.error) {
+        usersStatus.textContent = 'Could not load — ' + res.error.message;
+        return;
+      }
+      var rows = res.data || [];
+      if (rows.length === 0) {
+        usersStatus.textContent = 'No users match.';
+        return;
+      }
+      usersStatus.textContent = rows.length + (rows.length === 100 ? '+ ' : ' ') + 'user' + (rows.length === 1 ? '' : 's');
+      usersTbody.innerHTML = rows.map(renderUserRow).join('');
+    });
+  }
+
+  function renderUserRow(r) {
+    var tier = r.role === 'admin' ? 'Admin'
+      : r.role === 'moderator' ? 'Moderator'
+      : r.is_operator ? 'Operator'
+      : r.is_paid_guide ? 'Paid guide'
+      : 'Guide';
+    var tierClass = tier.toLowerCase().replace(/\s+/g, '-');
+
+    var statusClass = 'pill-' + (r.approval_status || 'unknown');
+    return '<tr>' +
+      '<td>' + escapeHtml(r.full_name || '—') + '</td>' +
+      '<td class="mono">' + escapeHtml(r.email || '—') + '</td>' +
+      '<td>' + escapeHtml(r.base_city || '—') + '</td>' +
+      '<td><span class="user-tier user-tier--' + tierClass + '">' + tier + '</span></td>' +
+      '<td><span class="user-status ' + statusClass + '">' + escapeHtml(r.approval_status || '—') + '</span></td>' +
+      '<td title="' + escapeHtml(fmtDateTime(r.last_sign_in_at)) + '">' + escapeHtml(fmtRelative(r.last_sign_in_at)) + '</td>' +
+      '<td title="' + escapeHtml(fmtDateTime(r.last_message_at)) + '">' + escapeHtml(fmtRelative(r.last_message_at)) + '</td>' +
+      '<td class="num">' + escapeHtml(String(r.message_count || 0)) + '</td>' +
+    '</tr>';
+  }
+
+  if (usersFilter) {
+    usersFilter.addEventListener('input', function () {
+      if (usersDebounceHandle) clearTimeout(usersDebounceHandle);
+      usersDebounceHandle = setTimeout(loadUsers, 250);
+    });
+    usersFilter.addEventListener('change', loadUsers);
+    usersFilter.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      loadUsers();
+    });
+  }
+
+  // ── Activity feed ─────────────────────────────────────────────────
+  function loadActivity() {
+    activityStatus.textContent = 'Loading…';
+    activityFeed.setAttribute('aria-busy', 'true');
+    activityFeed.innerHTML = '';
+
+    sb.rpc('admin_recent_activity', { p_limit: 80 }).then(function (res) {
+      activityFeed.setAttribute('aria-busy', 'false');
+      if (res.error) {
+        activityStatus.textContent = 'Could not load — ' + res.error.message;
+        return;
+      }
+      var rows = res.data || [];
+      activityStatus.textContent = rows.length === 0 ? 'No activity yet.' : '';
+      activityFeed.innerHTML = rows.map(renderActivityRow).join('');
+    });
+  }
+
+  function renderActivityRow(r) {
+    var kind = r.kind || 'event';
+    var dotClass = 'activity-dot activity-dot--' + kind.replace(/_/g, '-');
+    var kindLabel = kind.replace(/_/g, ' ');
+    return '<li class="activity-item">' +
+      '<span class="' + dotClass + '" aria-hidden="true"></span>' +
+      '<div class="activity-item__body">' +
+        '<p class="activity-item__head">' +
+          '<span class="activity-item__kind">' + escapeHtml(kindLabel) + '</span>' +
+          '<span class="activity-item__time" title="' + escapeHtml(fmtDateTime(r.occurred_at)) + '">' +
+            escapeHtml(fmtRelative(r.occurred_at)) +
+          '</span>' +
+        '</p>' +
+        '<p class="activity-item__actor">' + escapeHtml(r.actor || '—') + '</p>' +
+        (r.detail ? '<p class="activity-item__detail">' + escapeHtml(r.detail) + '</p>' : '') +
+      '</div>' +
+    '</li>';
+  }
+
+  // ── Applications ──────────────────────────────────────────────────
   tabsEl.forEach(function (tab) {
     tab.addEventListener('click', function () {
       var status = tab.dataset.status;
@@ -156,7 +410,6 @@
     });
   });
 
-  // ── Applications query ───────────────────────────────────────────
   function loadApplications() {
     queueStatus.textContent = 'Loading…';
     listEl.setAttribute('aria-busy', 'true');
@@ -192,16 +445,12 @@
       });
   }
 
-  // ── Render one application ───────────────────────────────────────
   function renderApplication(app) {
     var li = document.createElement('li');
     li.className = 'app-card';
     li.dataset.appId = app.id;
 
     var isOperator = app.application_type === 'operator';
-    // For operators, the company is the primary identity. For guides,
-    // it's the person's name. Each is displayed with a subtitle showing
-    // the contact name (operators) or just the email (guides).
     var primaryName = isOperator
       ? (app.operator_name || app.email || 'Unnamed operator')
       : ([app.first_name, app.last_name].filter(Boolean).join(' ') || 'Unnamed');
@@ -209,14 +458,7 @@
       ? ([app.first_name, app.last_name].filter(Boolean).join(' ').trim() || app.email || '')
       : (app.email || '');
 
-    var when = new Date(app.created_at);
-    var whenLabel = when.toLocaleString(undefined, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    var whenLabel = fmtDateTime(app.created_at);
 
     li.innerHTML =
       '<div class="app-card__head">' +
@@ -318,7 +560,6 @@
     return b;
   }
 
-  // ── Approve / Reject ─────────────────────────────────────────────
   function runApprove(applicationId, btn) {
     btn.disabled = true;
     btn.textContent = 'Approving…';
@@ -375,7 +616,6 @@
       });
   }
 
-  // ── Edge Function invoke (with admin JWT) ────────────────────────
   function invokeFunction(name, body) {
     if (!currentSession) {
       return Promise.resolve({ ok: false, error: 'Not signed in.' });

@@ -1,0 +1,208 @@
+<!doctype html>
+<!--
+  Data Retention Policy.
+  Durations align with the strategy memo of 2026-05-13. German tax law
+  (§ 147 AO) forces a 10-year floor on billing/invoice records.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Data Retention Policy — Guild</title>
+    <meta name="description" content="How long Guild keeps each category of data, and why. Aligned with GDPR Art. 5(1)(e) and German tax-retention obligations." />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/png" href="/guild-logo.png" />
+    <link rel="apple-touch-icon" href="/guild-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="page">
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="/" aria-label="Guild — home">
+          <img class="brand__mark" src="/guild-logo.png" alt="Guild" width="48" height="48" decoding="async" />
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a class="nav__link" href="/">Home</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page__main">
+      <div class="wrap">
+        <header class="page__header">
+          <p class="page__kicker" data-reveal>Guild · Data retention</p>
+          <h1 class="page__title" data-reveal style="--reveal-delay: 80ms">Data Retention Policy.</h1>
+          <p class="page__lede" data-reveal style="--reveal-delay: 160ms">
+            GDPR Art.&nbsp;5(1)(e) says personal data must be kept "no
+            longer than necessary." This page is our public record of how
+            long we keep each category of data and why.
+          </p>
+        </header>
+
+        <article class="prose" data-reveal style="--reveal-delay: 240ms">
+          <h2>Categories and retention periods</h2>
+
+          <h3>1. Application data (rejected applicants)</h3>
+          <p>
+            <strong>Retention:</strong> 90 days from rejection, then
+            permanently deleted.<br>
+            <strong>Why:</strong> short window to handle appeals or
+            re-applications. Legal basis: Art.&nbsp;6(1)(f) GDPR
+            (legitimate interest in abuse prevention and operational
+            continuity).
+          </p>
+
+          <h3>2. Application data (approved applicants)</h3>
+          <p>
+            <strong>Retention:</strong> for the lifetime of your Guild
+            account. Merged into your profile once approved.<br>
+            <strong>Why:</strong> the application is the basis of your
+            membership. Deleted when you close your account.
+          </p>
+
+          <h3>3. Profile and account data</h3>
+          <p>
+            <strong>Retention:</strong> until you request deletion or
+            your account is closed for inactivity, then a 30-day
+            soft-deletion window, then permanent purge.<br>
+            <strong>Why:</strong> required to operate the service.
+            Legal basis: Art.&nbsp;6(1)(b) GDPR (performance of the
+            membership contract).
+          </p>
+
+          <h3>4. Direct messages</h3>
+          <p>
+            <strong>Retention:</strong> 24 months from the date the
+            message was sent. Older messages are permanently deleted from
+            the server.<br>
+            <strong>Why:</strong> active operational use; longer-term
+            retention is not necessary. Message bodies are end-to-end
+            encrypted in storage. Legal basis: Art.&nbsp;6(1)(b) GDPR.
+          </p>
+
+          <h3>5. Forum posts and replies</h3>
+          <p>
+            <strong>Retention:</strong> as long as the thread remains
+            useful to the community or until you request deletion of your
+            posts. We do not auto-delete forum content but we anonymise
+            it (replace the author with a tombstone) when the author's
+            account is deleted.<br>
+            <strong>Why:</strong> community knowledge value. Legal basis:
+            Art.&nbsp;6(1)(f) GDPR (legitimate interest in maintaining a
+            useful archive).
+          </p>
+
+          <h3>6. Job posts and applications</h3>
+          <p>
+            <strong>Retention:</strong> 24 months from the date the post
+            expired or was filled.<br>
+            <strong>Why:</strong> reasonable look-back for the operator
+            and applicant; longer is not necessary.
+          </p>
+
+          <h3>7. Authentication and security logs</h3>
+          <p>
+            <strong>Retention:</strong> sign-in events 90 days; failed
+            sign-in attempts and IP addresses 90 days.<br>
+            <strong>Why:</strong> abuse and incident investigation.
+            Legal basis: Art.&nbsp;6(1)(f) GDPR.
+          </p>
+
+          <h3>8. Push notification tokens</h3>
+          <p>
+            <strong>Retention:</strong> until you sign out or uninstall
+            the app. Tokens are rotated by the operating system; expired
+            tokens are pruned on the next delivery attempt.
+          </p>
+
+          <h3>9. Subscription and billing records</h3>
+          <p>
+            <strong>Retention:</strong> ten years from the end of the
+            calendar year in which the invoice was issued.<br>
+            <strong>Why:</strong> mandatory under §&nbsp;147 of the
+            German Fiscal Code (Abgabenordnung). Legal basis:
+            Art.&nbsp;6(1)(c) GDPR (compliance with a legal obligation).
+            Even if you delete your Guild account, invoice records that
+            mention your name and address must be retained for tax
+            purposes; access to them is restricted to the finance
+            function.
+          </p>
+
+          <h3>10. Moderation and abuse reports</h3>
+          <p>
+            <strong>Retention:</strong> reports and the decisions taken
+            on them are retained for 24 months. Where the report led to
+            a permanent account termination for a serious or criminal
+            breach, the underlying record is retained for as long as the
+            ban remains in effect, plus 24 months.<br>
+            <strong>Why:</strong> DSA accountability, evidence in case of
+            appeal, and prevention of repeat offences. Legal basis:
+            Art.&nbsp;6(1)(c) and 6(1)(f) GDPR.
+          </p>
+
+          <h3>11. Support email correspondence</h3>
+          <p>
+            <strong>Retention:</strong> 36 months from the last reply,
+            then permanently deleted.<br>
+            <strong>Why:</strong> resolving recurring issues and
+            documenting commitments made to members.
+          </p>
+
+          <h3>12. Anonymised analytics</h3>
+          <p>
+            <strong>Retention:</strong> raw events 12 months, anonymised
+            aggregates indefinitely.<br>
+            <strong>Why:</strong> product improvement. We do not run
+            third-party analytics on the marketing site; in-app
+            telemetry, where used, is aggregated and stripped of
+            personal identifiers after 12 months.
+          </p>
+
+          <h2>What happens when you delete your account</h2>
+          <ol>
+            <li>Your profile is immediately deactivated and removed from public listings.</li>
+            <li>For 30 days the account is reversible by emailing <a href="mailto:hello@guild.guide">hello@guild.guide</a> — useful in case of mistake or compromised credentials.</li>
+            <li>After 30 days the profile row, message bodies, forum-post author identity, push tokens, and other personal-data fields are permanently deleted.</li>
+            <li>Forum posts are retained but reattributed to an anonymous tombstone author.</li>
+            <li>Invoice and tax records continue to be retained for the periods set out above, under legal obligation.</li>
+          </ol>
+
+          <h2>Exceptions</h2>
+          <p>
+            Where data is subject to an active legal hold (litigation,
+            regulatory investigation, or law-enforcement request), the
+            retention periods above are extended until the hold is lifted.
+            Where data has already been irreversibly anonymised it falls
+            outside the scope of GDPR and is not subject to these
+            periods.
+          </p>
+
+          <p class="legal-meta">Last updated: <time datetime="2026-05-13">13 May 2026</time></p>
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p>© <span data-year></span> Guild</p>
+        <nav class="site-footer__links" aria-label="Legal">
+          <a href="/imprint">Imprint</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/legal">All legal</a>
+          <a class="footer-admin" href="/admin" rel="nofollow" aria-label="Admin sign-in">Admin</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script defer src="/motion.js"></script>
+    <script>
+      var y = document.querySelector('[data-year]');
+      if (y) y.textContent = String(new Date().getFullYear());
+    </script>
+  </body>
+</html>

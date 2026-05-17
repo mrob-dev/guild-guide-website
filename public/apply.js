@@ -39,6 +39,22 @@ function setTab(tab) {
       ? 'Send operator application'
       : 'Send application';
   }
+  // Toggle the operator-authority consent row + the agreement link in
+  // the consent block to match the active tab.
+  const opRows = document.querySelectorAll('[data-operator-only]');
+  opRows.forEach((el) => {
+    el.hidden = tab !== 'operator';
+    const cb = el.querySelector('input[type="checkbox"]');
+    if (cb) {
+      cb.required = tab === 'operator';
+      if (tab !== 'operator') cb.checked = false;
+    }
+  });
+  const guideAg = document.querySelector('[data-agreement-guide]');
+  const opAg = document.querySelector('[data-agreement-operator]');
+  if (guideAg) guideAg.hidden = tab === 'operator';
+  if (opAg) opAg.hidden = tab !== 'operator';
+
   // Clear errors when switching — they're scoped to the previously-
   // visible fields and would otherwise read as orphan.
   clearErrors();
@@ -133,6 +149,20 @@ function validate(values) {
     formError.textContent = 'Please tell us your base city.';
     ok = false;
   }
+  // Consent — every box must be ticked. The HTML required attribute
+  // catches this for the standard form-submit path, but a JS-triggered
+  // submission could bypass it, so re-check here.
+  const c = values.consent || {};
+  const consentMissing = [];
+  if (!c.confirmedAge18) consentMissing.push('age 18+ confirmation');
+  if (!c.identityDeclaration) consentMissing.push('identity declaration');
+  if (isOperator && !c.operatorAuthority) consentMissing.push('authorised representative declaration');
+  if (!c.dataProcessing) consentMissing.push('data processing consent');
+  if (!c.terms) consentMissing.push('terms / membership agreement');
+  if (consentMissing.length > 0) {
+    formError.textContent = `Please confirm: ${consentMissing.join(', ')}.`;
+    ok = false;
+  }
   return ok;
 }
 
@@ -141,15 +171,39 @@ function readForm() {
   const trim = (v) => (typeof v === 'string' ? v.trim() : v);
   const get = (k) => trim(data.get(k)) || undefined;
   const num = (k) => (data.get(k) ? Number(data.get(k)) : undefined);
+  const bool = (k) => data.get(k) === 'on';
 
   const tab = form.dataset.tab === 'operator' ? 'operator' : 'guide';
 
+  // Capture the consent record + the actual on-screen wording so the
+  // server can store it for evidentiary purposes (matches legal-
+  // hardening from migration 0042). textOf() reads the visible <span>
+  // adjacent to each checkbox so future copy changes flow through to
+  // the audit record automatically.
+  const textOf = (name) => {
+    const cb = form.elements.namedItem(name);
+    if (!cb) return '';
+    const span = cb.parentElement?.querySelector('span');
+    return (span?.textContent || '').replace(/\s+/g, ' ').trim();
+  };
+  const consent = {
+    terms: bool('consent_terms'),
+    privacy: bool('consent_terms'),         // terms checkbox covers both per copy
+    acceptableUse: bool('consent_terms'),   // same
+    dataProcessing: bool('consent_data'),
+    identityDeclaration: bool('consent_identity'),
+    operatorAuthority: bool('consent_authority'),
+    confirmedAge18: bool('consent_age'),
+    text: {
+      age: textOf('consent_age'),
+      identity: textOf('consent_identity'),
+      authority: textOf('consent_authority'),
+      data: textOf('consent_data'),
+      terms: textOf('consent_terms'),
+    },
+  };
+
   if (tab === 'operator') {
-    // Operator fields map onto the same submit-application payload keys
-    // as the Guide form, with applicationType + operatorName as the new
-    // signal. Server reuses years_guiding → years_in_operation,
-    // previous_companies → (unused), tours_offered → types of tours,
-    // specialties → niche, additional_info → about-your-operation.
     return {
       applicationType: 'operator',
       operatorName: get('operatorName'),
@@ -162,6 +216,7 @@ function readForm() {
       toursOffered: get('operatorTours'),
       specialties: get('operatorSpecialties'),
       additionalInfo: get('operatorAbout'),
+      consent,
       _hp: data.get('hp_company'),
     };
   }
@@ -178,6 +233,7 @@ function readForm() {
     toursOffered: get('toursOffered'),
     specialties: get('specialties'),
     additionalInfo: get('additionalInfo'),
+    consent,
     _hp: data.get('hp_company'),
   };
 }
@@ -253,8 +309,13 @@ form.addEventListener('submit', async (event) => {
         'A city admin will review and reply by email. On approval you\'ll ' +
         'receive a temporary password plus a link to ' +
         '<a class="link" href="/upgrade">guild.guide/upgrade</a> to start ' +
-        'your €10/week Stripe subscription. The Operator tier activates ' +
-        'as soon as that first payment clears.';
+        'your Stripe subscription (€5/week or €200/year). The first 30 ' +
+        'days are free at no charge; cancel any time during the trial.';
+    } else if (successBody) {
+      successBody.innerHTML =
+        'A city admin will review and reply by email. On approval you\'ll ' +
+        'receive a temporary password plus a link to subscribe — €1/week ' +
+        'or €40/year, and the first 30 days are free.';
     }
     success.hidden = false;
     success.scrollIntoView({ behavior: 'smooth', block: 'start' });

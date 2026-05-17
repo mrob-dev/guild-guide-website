@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cookie Policy — Guild</title>
+    <meta name="description" content="What cookies and similar technologies Guild uses, and how to manage them." />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/png" href="/guild-logo.png" />
+    <link rel="apple-touch-icon" href="/guild-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="page">
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="/" aria-label="Guild — home">
+          <img class="brand__mark" src="/guild-logo.png" alt="Guild" width="48" height="48" decoding="async" />
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a class="nav__link" href="/">Home</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page__main">
+      <div class="wrap">
+        <header class="page__header">
+          <p class="page__kicker" data-reveal>Guild · Cookies</p>
+          <h1 class="page__title" data-reveal style="--reveal-delay: 80ms">Cookie Policy.</h1>
+          <p class="page__lede" data-reveal style="--reveal-delay: 160ms">
+            What cookies and similar technologies we use, and how to
+            manage them. Short version: we don't track you.
+          </p>
+        </header>
+
+        <article class="prose" data-reveal style="--reveal-delay: 240ms">
+          <h2>What we use</h2>
+          <p>
+            <strong>guild.guide</strong> (this marketing website) does not
+            set any cookies. We do not run Google Analytics, Meta Pixel,
+            Plausible, Mixpanel, or any other analytics or advertising
+            tool. There is no consent banner because there is nothing to
+            consent to.
+          </p>
+          <p>
+            The application form at <a href="/apply">guild.guide/apply</a>
+            posts your submission directly to our server-side function;
+            no third-party scripts are loaded.
+          </p>
+          <p>
+            The Stripe Checkout page used by
+            <a href="/upgrade">guild.guide/upgrade</a> is hosted by
+            Stripe Payments Europe Ltd. and sets the cookies Stripe needs
+            to process your subscription. Those cookies live on
+            <code>checkout.stripe.com</code>, not on guild.guide. Stripe's
+            cookie policy applies on that domain.
+          </p>
+
+          <h2>Inside the Guild app</h2>
+          <p>
+            The Guild mobile and web apps do not use cookies as such, but
+            they store the following data on your device to keep you
+            signed in and the app functional:
+          </p>
+          <ul>
+            <li>An authentication session token issued by our backend (Supabase).</li>
+            <li>Your selected theme and notification preferences.</li>
+            <li>A local cache of recent messages, posts, and listings to keep the app responsive offline.</li>
+          </ul>
+          <p>
+            You can clear this state by signing out, by reinstalling the
+            app, or by clearing site data in your browser. Deleting your
+            account also removes the server-side counterpart of this data
+            within 30 days; see our
+            <a href="/data-retention">Data Retention Policy</a>.
+          </p>
+
+          <h2>Third-party services we use</h2>
+          <p>
+            We use a small set of EU-compliant service providers. None of
+            them set tracking cookies on guild.guide:
+          </p>
+          <ul>
+            <li><strong>Supabase</strong> — database, authentication, file storage (EU region).</li>
+            <li><strong>Resend</strong> — transactional email delivery.</li>
+            <li><strong>Stripe</strong> — subscription payments, on a separate domain.</li>
+            <li><strong>Apple App Store / Google Play</strong> — app distribution and in-app purchases, where applicable.</li>
+            <li><strong>Firebase Cloud Messaging</strong> — push notification delivery.</li>
+          </ul>
+          <p>
+            Each is bound by a data-processing agreement under GDPR
+            Art.&nbsp;28. See our
+            <a href="/privacy">Privacy Policy</a> for the legal bases and
+            retention details for each category of data they touch.
+          </p>
+
+          <p class="legal-meta">Last updated: <time datetime="2026-05-13">13 May 2026</time></p>
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p>© <span data-year></span> Guild</p>
+        <nav class="site-footer__links" aria-label="Legal">
+          <a href="/imprint">Imprint</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/legal">All legal</a>
+          <a class="footer-admin" href="/admin" rel="nofollow" aria-label="Admin sign-in">Admin</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script defer src="/motion.js"></script>
+    <script>
+      var y = document.querySelector('[data-year]');
+      if (y) y.textContent = String(new Date().getFullYear());
+    </script>
+  </body>
+</html>

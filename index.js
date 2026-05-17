@@ -9,19 +9,27 @@ const app = express();
 app.disable('x-powered-by');
 app.use(express.static(PUBLIC_DIR));
 
-// Pretty URLs: /apply, /imprint, /privacy, /upgrade
-app.get('/apply', (req, res) => {
-  res.sendFile(path.join(PUBLIC_DIR, 'apply.html'));
-});
-app.get('/imprint', (req, res) => {
-  res.sendFile(path.join(PUBLIC_DIR, 'imprint.html'));
-});
-app.get('/privacy', (req, res) => {
-  res.sendFile(path.join(PUBLIC_DIR, 'privacy.html'));
-});
-app.get('/upgrade', (req, res) => {
-  res.sendFile(path.join(PUBLIC_DIR, 'upgrade.html'));
-});
+// Pretty URLs.
+const PRETTY_ROUTES = {
+  '/apply': 'apply.html',
+  '/imprint': 'imprint.html',
+  '/privacy': 'privacy.html',
+  '/upgrade': 'upgrade.html',
+  '/legal': 'legal.html',
+  '/terms': 'terms.html',
+  '/acceptable-use': 'acceptable-use.html',
+  '/cookies': 'cookies.html',
+  '/data-retention': 'data-retention.html',
+  '/dsa-notice': 'dsa-notice.html',
+  '/copyright': 'copyright.html',
+  '/guide-agreement': 'guide-agreement.html',
+  '/operator-agreement': 'operator-agreement.html',
+};
+for (const [route, file] of Object.entries(PRETTY_ROUTES)) {
+  app.get(route, (req, res) => {
+    res.sendFile(path.join(PUBLIC_DIR, file));
+  });
+}
 // /app — landing page targeted by approval-email GUILD_LOGIN_URL.
 // "You're approved, here's how to install the app" copy + store
 // badges (placeholders until App Store / Play Store listings are live).
