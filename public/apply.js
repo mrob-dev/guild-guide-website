@@ -55,6 +55,12 @@ function setTab(tab) {
   if (guideAg) guideAg.hidden = tab === 'operator';
   if (opAg) opAg.hidden = tab !== 'operator';
 
+  // Referral code is required for guides only — strip the HTML5 required
+  // attribute when the operator tab is active so native validation
+  // doesn't block submission of a hidden field.
+  const refInput = form.elements.namedItem('referralCode');
+  if (refInput) refInput.required = tab === 'guide';
+
   // Clear errors when switching — they're scoped to the previously-
   // visible fields and would otherwise read as orphan.
   clearErrors();
@@ -110,6 +116,69 @@ function resetTurnstile() {
 
 loadTurnstile();
 
+// ── Referral prefill + prefix validation ─────────────────────────
+// Existing guides share a link like `/apply?ref=BER-K7M3P9X`. We
+// prefill the input from that param so the applicant doesn't have
+// to type the code; we also normalise to uppercase as a quality-of-
+// life touch (server uppercases anyway, but matching the field
+// avoids visual surprise on submit).
+//
+// On blur we run a prefix sanity check using the data-prefix
+// attribute on the field — this is the same prefix the server
+// enforces, mirrored here so typos surface immediately while the
+// form stays open. The real code → guide lookup happens server-side
+// where it can't be inspected; this is purely "did you type a
+// recognisable shape".
+const referralInput = form.elements.namedItem('referralCode');
+
+function readReferralFromUrl() {
+  if (!referralInput) return;
+  const params = new URLSearchParams(window.location.search);
+  const ref = (params.get('ref') || params.get('code') || '').trim();
+  if (!ref) return;
+  referralInput.value = ref.toUpperCase();
+  // Light visual cue that the code arrived via a link — helps the
+  // applicant trust where it came from.
+  const wrap = referralInput.closest('.field');
+  if (wrap) wrap.classList.add('field--prefilled');
+}
+
+function validateReferralPrefix() {
+  if (!referralInput) return true;
+  const expectedPrefix = (referralInput.dataset.prefix || '').toUpperCase();
+  const raw = (referralInput.value || '').trim().toUpperCase();
+  if (!raw) {
+    setError('referralCode', 'A referral code is required to apply as a guide.');
+    return false;
+  }
+  if (expectedPrefix && !raw.startsWith(`${expectedPrefix}-`)) {
+    setError(
+      'referralCode',
+      `Code should start with "${expectedPrefix}-" for this city. Please double-check with the guide who referred you.`,
+    );
+    return false;
+  }
+  setError('referralCode', '');
+  return true;
+}
+
+if (referralInput) {
+  referralInput.addEventListener('blur', () => {
+    // Only nag if the field has something typed — empty-field
+    // validation happens on submit so we don't shout at someone
+    // who tabbed through the field by accident.
+    if ((referralInput.value || '').trim()) validateReferralPrefix();
+  });
+  // Auto-uppercase as the user types — codes are case-insensitive
+  // server-side but the visual feedback keeps things consistent.
+  referralInput.addEventListener('input', () => {
+    const start = referralInput.selectionStart;
+    referralInput.value = referralInput.value.toUpperCase();
+    if (start != null) referralInput.setSelectionRange(start, start);
+  });
+  readReferralFromUrl();
+}
+
 function setError(name, message) {
   const el = form.querySelector(`[data-error-for="${name}"]`);
   if (el) el.textContent = message ?? '';
@@ -144,6 +213,11 @@ function validate(values) {
   if (isOperator && !values.operatorName) {
     setError('operatorName', 'Operator name is required.');
     ok = false;
+  }
+  // Guides must supply a referral code with the correct city prefix.
+  // Operators verify via website + operator details and don't need one.
+  if (!isOperator) {
+    if (!validateReferralPrefix()) ok = false;
   }
   if (!values.city) {
     formError.textContent = 'Please tell us your base city.';
@@ -223,6 +297,7 @@ function readForm() {
 
   return {
     applicationType: 'guide',
+    referralCode: get('referralCode'),
     email: get('email'),
     firstName: get('firstName'),
     lastName: get('lastName'),

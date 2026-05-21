@@ -213,7 +213,13 @@
       window.GUILD_SUPABASE_URL = 'https://nigonhrurkscfjzgbmrr.supabase.co';
       window.GUILD_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pZ29uaHJ1cmtzY2ZqemdibXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzY1MjEsImV4cCI6MjA5MzQxMjUyMX0.0VahYLI0Yn-GRzEUR6frEMPe4o7jJjCpUIhD267L96A';
     </script>
-    <script src="https://esm.sh/@supabase/supabase-js@2.39.0?bundle" defer></script>
+    <!--
+      Use the UMD build so it exposes `window.supabase` as a global
+      (admin.js is a classic IIFE, not an ES module — loading the
+      esm.sh ?bundle build here would trigger "Cannot use import
+      statement outside a module" because that URL serves ES modules).
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js" defer></script>
     <script src="/admin/admin.js" defer></script>
   </body>
 </html>

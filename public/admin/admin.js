@@ -419,7 +419,14 @@
       .select(
         'id, application_type, operator_name, first_name, last_name, email, ' +
           'city, years_guiding, website, previous_companies, tours_offered, ' +
-          'specialties, additional_info, status, rejection_reason, created_at'
+          'specialties, additional_info, status, rejection_reason, created_at, ' +
+          // Referral fields + the referring guide's name via FK embed.
+          // PostgREST resolves the join on guide_applications.referrer_id
+          // → guide_profiles.user_id. We grab both the name and the
+          // referrer's own code so the admin row can show "Jane Doe
+          // (BER-XXXX)" with the referrer's code in brackets.
+          'referral_code_used, referral_bootstrap, referrer_id, ' +
+          'referrer:guide_profiles!referrer_id(full_name, referral_code)'
       )
       .eq('status', currentStatus)
       .order('created_at', { ascending: false })
@@ -498,7 +505,24 @@
         ['About', app.additional_info || '—'],
       ];
     } else {
+      // Referral display rules (per GGE-### design):
+      //   matched   → "<name> (<code>)"
+      //   bootstrap → "GUILD-BOOT (bootstrap code)"
+      //   unknown   → "<code> — UNKNOWN, flagged for review"
+      //   missing   → "—"  (legacy applications from before this shipped)
+      var referredBy = '—';
+      if (app.referral_bootstrap) {
+        referredBy = (app.referral_code_used || 'GUILD-BOOT') + ' (bootstrap code)';
+      } else if (app.referrer && app.referrer.full_name) {
+        referredBy =
+          app.referrer.full_name +
+          ' (' + (app.referral_code_used || app.referrer.referral_code || '?') + ')';
+      } else if (app.referral_code_used) {
+        referredBy = app.referral_code_used + ' — UNKNOWN, flagged for review';
+      }
+
       rows = [
+        ['Referred by', referredBy],
         ['Years guiding', app.years_guiding != null ? String(app.years_guiding) : '—'],
         ['Website', app.website || '—'],
         ['Companies', app.previous_companies || '—'],

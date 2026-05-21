@@ -36,6 +36,13 @@
             apply on the same page — pick the right tab below. A city admin
             reviews every application and replies by email.
           </p>
+          <p class="page__lede page__lede--note" data-reveal style="--reveal-delay: 180ms">
+            <strong>Guild is referral-only.</strong> To apply as a guide,
+            you'll need a referral code from a guide already in Guild —
+            this is how the community vets new members. Operators don't
+            need a code; the website and operation details you share
+            verify your application.
+          </p>
         </header>
 
         <!-- Tab selector — switches the form's field set between Guide and Operator. -->
@@ -51,6 +58,32 @@
         <form id="apply-form" class="apply-form" novalidate autocomplete="on" data-tab="guide">
           <!-- ───── GUIDE PANE ───── -->
           <div class="apply-pane" data-pane="guide" id="pane-guide">
+          <fieldset class="fieldset apply-referral">
+            <legend class="legend">Referral</legend>
+            <p class="apply-referral__lede">
+              Guild is referral-only. Enter the code shared with you by an
+              existing Guild guide. If you visited via their link, the code
+              has already been filled in below.
+            </p>
+            <label class="field">
+              <span class="label">Referral code <span class="req">*</span></span>
+              <input
+                type="text"
+                name="referralCode"
+                id="referralCode"
+                required
+                autocomplete="off"
+                autocapitalize="characters"
+                spellcheck="false"
+                maxlength="32"
+                placeholder="e.g. BER-K7M3P9X"
+                data-prefix="BER"
+              />
+              <span class="hint">3-letter city prefix followed by your guide's code (e.g. <code>BER-K7M3P9X</code>).</span>
+              <span class="error" data-error-for="referralCode"></span>
+            </label>
+          </fieldset>
+
           <fieldset class="fieldset">
             <legend class="legend">You</legend>
 
